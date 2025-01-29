@@ -1,0 +1,94 @@
+#include<stdio.h>
+
+#include<string.h>
+
+int ans = 0, pos = -1;
+
+char w[30], a[1000010];
+
+int main()
+
+{
+
+	int i, j;
+
+	gets(w);
+
+	gets(a);
+
+	strcat(w, " ");
+
+	strcat(a, "  "); //strlen()
+
+	for(i = 0; w[i] != '\0'; i++){
+
+		if(w[i] >= 'A' && w[i] <= 'Z'){
+
+			w[i] = w[i] - 'A' + 'a';
+
+		}
+
+	}
+
+	for(i = 0; a[i] != '\0'; i++){
+
+		if(a[i] >= 'A' && a[i] <= 'Z'){
+
+			a[i] = a[i] - 'A' + 'a';
+
+		}
+
+	}
+
+	for(i = 0; a[i] != '\0'; i ++){
+
+		if(i == 0 || a[i - 1] == ' '){
+
+			int len = 0; // st 
+
+			while(w[len] != '\0'){
+
+				if(w[len] == a[i]){
+
+					i ++, len ++;
+
+				}
+
+				else
+
+					break;
+
+			}
+
+			if(w[len] == '\0'){
+
+				if(ans == 0){
+
+					pos = i - len;
+
+				}
+
+				ans++;
+
+			}
+
+			i -= len;
+
+		}
+
+	}
+
+	if(ans == 0){
+
+		printf("-1");
+
+		return 0;
+
+	}
+
+	printf("%d %d", ans, pos);
+
+	return 0;
+
+}
+
