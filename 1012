@@ -1,0 +1,77 @@
+#include<stdio.h>
+
+#include<string.h>
+
+#define N 100
+
+char a[21][N];
+
+int cmp(char x[], char y[])
+
+{
+
+	char a1[N] ={}, a2[N] = {};
+
+	strcpy(a1, x);
+
+	strcpy(a2, y);
+
+	strcat(a1, y);
+
+	strcat(a2, x);
+
+	return strcmp(a1, a2) >= 0;
+
+}
+
+void swap(int i, int j)
+
+{
+
+	char tmp[N];
+
+	strcpy(tmp, a[i]);
+
+	strcpy(a[i], a[j]);
+
+	strcpy(a[j], tmp);
+
+}
+
+int main()
+
+{
+
+	int n, i, j;
+
+	scanf("%d", &n);
+
+	for(i = 1; i <= n; i ++){
+
+		scanf("%s", a[i]);
+
+	}
+
+	for(i = 1; i <= n; i ++){
+
+		for(j = i + 1; j <= n; j ++){
+
+			if(cmp(a[i], a[j]) == 0){
+
+				swap(i, j);
+
+			}
+
+		}
+
+	}
+
+	for(i = 1; i <= n; i ++){
+
+		printf("%s", a[i]);
+
+	}
+
+	return 0;
+
+}
