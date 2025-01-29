@@ -1,0 +1,16 @@
+#include<stdio.h>
+int main()
+{
+	int x, y, i,  j;
+	int a1 = 0, a2 = 0;
+	scanf("%d%d", &x, &y);
+	int b = x > y ? x : y;
+	int s = x > y ? y : x;
+	for( i = b, j = s; i >= 1; i--, j--)
+  {
+		a1 += i * j;
+	}
+	a2 = (1 + s)*(1 + b)*s*b/4 - a1;
+	printf("%d %d",a1, a2);
+	return 0;
+}
