@@ -1,0 +1,68 @@
+#include <iostream>
+#include <cmath>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+int convert(const char* number, int base) {
+    int result = 0;
+    int length = strlen(number);
+    for (int i = 0; i < length; i++) {
+        char digit = number[length - 1 - i];
+        int value = 0;
+        if (digit >= '0' && digit <= '9')
+            value = digit - '0';
+        else if (digit >= 'A' && digit <= 'F')
+            value = digit - 'A' + 10;
+        else if (digit >= 'a' && digit <= 'f')
+            value = digit - 'a' + 10;
+        result += value * pow(base, i);
+    }
+    return result;
+}
+
+string toBase(int num, int base) {
+    string result;
+    while (num > 0) {
+        int remainder = num % base;
+        if (remainder < 10)
+            result += (char)('0' + remainder);
+        else
+            result += (char)('A' + remainder - 10);
+        num /= base;
+    }
+    reverse(result.begin(), result.end());
+    return result;
+}
+
+bool isPalindrome(const string& str) {
+    int len = str.length();
+    for (int i = 0; i < len / 2; i++) {
+        if (str[i] != str[len - 1 - i])
+            return false;
+    }
+    return true;
+}
+
+int main() {
+    int base;
+    char number[110];
+    cin >> base;
+    cin.ignore(); // 忽略换行符
+    cin.getline(number, sizeof(number));
+
+    int num = convert(number, base);
+    for (int step = 1; step <= 30; step++) {
+        string numStr = toBase(num, base);
+        string revStr = numStr;
+        reverse(revStr.begin(), revStr.end());
+        int revNum = convert(revStr.c_str(), base);
+        num += revNum;
+        if (isPalindrome(toBase(num, base))) {
+            cout << "STEP=" << step;
+            return 0;
+        }
+    }
+    cout << "Impossible!";
+    return 0;
+}
