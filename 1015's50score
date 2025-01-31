@@ -65,7 +65,7 @@ int main() {
     for (int step = 1; step <= 30; ++step) {
         string numStr = toBase(num, base);
         if (isPalindrome(numStr)) {
-            cout << "STEP=" << step - 1 << endl;
+            cout << "STEP=" << step - 1;
             return 0;
         }
 
@@ -77,6 +77,6 @@ int main() {
     }
 
     // 如果在30步内无法得到回文数
-    cout << "Impossible!" << endl;
+    cout << "Impossible!";
     return 0;
 }
