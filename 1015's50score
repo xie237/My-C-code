@@ -1,0 +1,82 @@
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+// 将字符串表示的数字转换为指定基下的整数值
+int convert(const char* number, int base) {
+    int result = 0;
+    int length = strlen(number);
+    for (int i = 0; i < length; ++i) {
+        int value = 0;
+        if (number[i] >= '0' && number[i] <= '9') {
+            value = number[i] - '0';
+        } else if (number[i] >= 'A' && number[i] <= 'F') {
+            value = number[i] - 'A' + 10;
+        } else if (number[i] >= 'a' && number[i] <= 'f') {
+            value = number[i] - 'a' + 10;
+        }
+        result = result * base + value;
+    }
+    return result;
+}
+
+// 将整数值转换为指定基下的字符串表示
+string toBase(int num, int base) {
+    if (num == 0) return "0";
+    string result;
+    while (num > 0) {
+        int remainder = num % base;
+        if (remainder < 10) {
+            result += ('0' + remainder);
+        } else {
+            result += ('A' + remainder - 10);
+        }
+        num /= base;
+    }
+    reverse(result.begin(), result.end());
+    return result;
+}
+
+// 检查字符串是否为回文
+bool isPalindrome(const string& str) {
+    int len = str.length();
+    for (int i = 0; i < len / 2; ++i) {
+        if (str[i] != str[len - 1 - i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+int main() {
+    int base;
+    char number[110];
+    
+    // 读取输入
+    cin >> base;
+    cin.getline(number, sizeof(number)); // 忽略换行符
+    cin.getline(number, sizeof(number)); // 读取实际的数字
+
+    // 转换为整数
+    int num = convert(number, base);
+
+    // 进行最多30步的操作
+    for (int step = 1; step <= 30; ++step) {
+        string numStr = toBase(num, base);
+        if (isPalindrome(numStr)) {
+            cout << "STEP=" << step - 1 << endl;
+            return 0;
+        }
+
+        // 计算反向数并相加
+        string revStr = numStr;
+        reverse(revStr.begin(), revStr.end());
+        int revNum = convert(revStr.c_str(), base);
+        num += revNum;
+    }
+
+    // 如果在30步内无法得到回文数
+    cout << "Impossible!" << endl;
+    return 0;
+}
