@@ -1,0 +1,74 @@
+#include <iostream>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+// 将字符转换为对应的数值
+int charToValue(char c) {
+    if (c >= '0' && c <= '9') return c - '0';
+    if (c >= 'A' && c <= 'F') return c - 'A' + 10;
+    if (c >= 'a' && c <= 'f') return c - 'a' + 10;
+    return -1; // 非法字符
+}
+
+// 将数值转换为对应的字符
+char valueToChar(int v) {
+    if (v >= 0 && v <= 9) return '0' + v;
+    if (v >= 10 && v <= 15) return 'A' + v - 10;
+    return '!'; // 非法数值
+}
+
+// 在指定进制下进行字符串加法
+string addStrings(const string& a, const string& b, int base) {
+    string result;
+    int i = a.size() - 1, j = b.size() - 1;
+    int carry = 0;
+    
+    while (i >= 0 || j >= 0 || carry > 0) {
+        int sum = carry;
+        if (i >= 0) sum += charToValue(a[i--]);
+        if (j >= 0) sum += charToValue(b[j--]);
+        
+        carry = sum / base;
+        result.push_back(valueToChar(sum % base));
+    }
+    
+    reverse(result.begin(), result.end());
+    return result;
+}
+
+// 判断回文数
+bool isPalindrome(const string& s) {
+    int l = 0, r = s.size() - 1;
+    while (l < r) {
+        if (s[l++] != s[r--]) return false;
+    }
+    return true;
+}
+
+int main() {
+    int base;
+    string number;
+    cin >> base >> number;
+
+    // 初始检查
+    if (isPalindrome(number)) {
+        cout << "STEP=0";
+        return 0;
+    }
+
+    // 最多30步
+    for (int step = 1; step <= 30; ++step) {
+        string reversed_num = number;
+        reverse(reversed_num.begin(), reversed_num.end());
+        number = addStrings(number, reversed_num, base);
+        
+        if (isPalindrome(number)) {
+            cout << "STEP=" << step;
+            return 0;
+        }
+    }
+
+    cout << "Impossible!";
+    return 0;
+}
