@@ -1,0 +1,31 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+int main() {
+    int s, v;
+    cin >> s >> v;
+
+    // 计算总的行走时间（包括垃圾分类的时间）
+    int total_time = ceil(s * 1.0 / v) + 10;
+
+    // 计算最晚出发时间
+    int latest_departure_minutes = 8 * 60 - total_time;
+
+    // 如果最晚出发时间小于0，表示需要提前一天出发
+    if (latest_departure_minutes < 0) {
+        latest_departure_minutes += 24 * 60;
+    }
+
+    // 计算小时和分钟
+    int hours = latest_departure_minutes / 60;
+    int minutes = latest_departure_minutes % 60;
+
+    // 输出结果，确保格式为HH:MM
+    cout << setw(2) << setfill('0') << hours << ":"
+         << setw(2) << setfill('0') << minutes << endl;
+
+    return 0;
+}
