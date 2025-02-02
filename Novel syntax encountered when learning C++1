@@ -1,0 +1,17 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+    int zimushu = 0, shuzishu = 0, qitashu = 0;
+    string str;char ch;
+    while (cin.get(ch) && ch != '\n') {
+        str.push_back(ch);
+    }
+    for (int i = 0;i < str.size();i++)
+    {
+        if ((str[i] >= 'A' && str[i] <= 'z') || (str[i] >= 'a' && str[i] <= 'z'))  zimushu++;
+        else if (str[i] >= '0' && str[i] <= '9')  shuzishu++;
+        else  qitashu++;
+    }
+    cout << zimushu << " " << shuzishu << " " << qitashu;
+}
