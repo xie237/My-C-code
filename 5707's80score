@@ -1,0 +1,40 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+int main()
+{
+    int s, v, t,hsum=8,temp_hsum=8+24,time;
+    cin >> s >> v;
+    float chu = s *1.0/ v;
+    t = ceil(chu);
+    int tsum = t + 10;
+    int h = tsum / 60;
+    int m = tsum % 60;
+    if((h<=8)&&(m==0)||h<=7)
+    {
+        if (h > 0 && m > 0) hsum = hsum - h - 1;
+        else if (h > 0 && m == 0) hsum = hsum - h;
+        else if (h == 0 && m > 0)  hsum = hsum - 1;
+        else if (h == 0 && m == 0) hsum = hsum;
+        if(m==0)  
+            cout << "0" << hsum << ":" << "00";
+        else
+            cout << "0" << hsum << ":" << 60-m;
+    }
+    else if (h > 7)
+    {
+        if (h > 0 && m > 0) temp_hsum = temp_hsum - h - 1;
+        else if (h > 0 && m == 0) temp_hsum = temp_hsum - h;
+        else if (h == 0 && m > 0)  temp_hsum = temp_hsum - 1;
+        else if (h == 0 && m == 0) temp_hsum = temp_hsum;
+        if(h<=22 && m!=0)
+        cout << temp_hsum << ":" << 60 - m;
+        else if(h<=22 && m==0)
+        cout <<temp_hsum << ":" << "00";
+        else if(h>22 && m!=0)
+        cout <<"0"<< temp_hsum << ":" << 60 - m;
+        else if(h<=22 && m==0)
+        cout << "0" << temp_hsum << ":" << "00";
+    }
+   
+}
