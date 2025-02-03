@@ -1,0 +1,39 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+int main() {
+    string target = "2023";
+    int m = target.size();
+    vector<int> pos[10];  // 预处理每个数字字符在目标中的位置（降序）
+
+    // 预处理目标字符的位置
+    for (int i = m-1; i >= 0; --i) {  // 反向遍历目标字符串
+        char c = target[i];
+        pos[c - '0'].push_back(i+1);  // j = i+1 (1-based)
+    }
+
+    vector<long long> dp(m+1, 0);  // dp数组
+    dp[0] = 1;  // 初始状态
+
+    // 遍历所有数字
+    for (int num = 1; num <= 2023; ++num) {
+        string s = to_string(num);
+        
+        // 处理每个数字的每一位
+        for (char c : s) {
+            int digit = c - '0';
+            if (pos[digit].empty()) continue;
+            
+            // 更新dp数组（降序处理避免覆盖）
+            for (int j : pos[digit]) {
+                dp[j] += dp[j-1];
+            }
+        }
+    }
+
+    cout << dp[m] << endl;
+    return 0;
+}
