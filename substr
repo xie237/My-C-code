@@ -14,3 +14,19 @@ int main() {
     cout << temp_sentence;
     return 0;
 }
+other way:
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string sentence,temp_sentence;
+    getline(cin, sentence);
+    for (int i = sentence.size()-1; i >=0; i--) 
+    {
+        if ((sentence[i] >= 'a' && sentence[i] <= 'z') || (sentence[i] >= 'A' && sentence[i] <= 'Z'))  break;
+        else if (sentence[i] == '*')  temp_sentence = sentence.substr(0,i);//这是从0开始，i为长度，不是i为下标
+    }
+    cout << temp_sentence;
+    return 0;
+}
