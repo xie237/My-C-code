@@ -1,0 +1,34 @@
+#include<iostream>
+#include<algorithm>
+#include<cstring>
+using namespace std;
+typedef struct student {
+	char uid[11];
+	int ac;
+	int submit;
+}stu;
+bool compare(const stu& a, const stu& b)
+{
+	if (a.ac != b.ac) return a.ac > b.ac;
+	else if (a.ac == b.ac)
+	{
+		if (a.submit != b.submit) return a.submit < b.submit;
+		else if (a.submit == b.submit)  return strcmp(a.uid , b.uid) > 0;
+	}
+}
+int main()
+{
+	int n;
+	cin >> n;
+	stu students[30];
+	for (int i = 0;i < n;i++)
+	{
+		cin >> students[i].uid  >> students[i].ac >> students[i].submit;
+	}
+	sort(students, students + n, compare);
+	for (int i = 0;i < n;i++)
+	{
+		cout << i+1 << " " << students[i].uid << " " << students[i].ac << " " << students[i].submit << endl;
+	}
+	return 0;
+}
