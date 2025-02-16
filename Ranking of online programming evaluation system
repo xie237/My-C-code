@@ -13,8 +13,9 @@ bool compare(const stu& a, const stu& b)
 	else if (a.ac == b.ac)
 	{
 		if (a.submit != b.submit) return a.submit < b.submit;
-		else if (a.submit == b.submit)  return strcmp(a.uid , b.uid) > 0;
+		else return false;
 	}
+    return false;
 }
 int main()
 {
@@ -25,7 +26,7 @@ int main()
 	{
 		cin >> students[i].uid  >> students[i].ac >> students[i].submit;
 	}
-	sort(students, students + n, compare);
+	stable_sort(students, students + n, compare);
 	for (int i = 0;i < n;i++)
 	{
 		cout << i+1 << " " << students[i].uid << " " << students[i].ac << " " << students[i].submit << endl;
