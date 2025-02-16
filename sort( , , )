@@ -1,0 +1,28 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<algorithm>
+using namespace std;
+typedef struct student {
+	char studyNum[4];
+	char name[10];
+	int score;
+}stu;
+bool compareByScore(const stu& a, const stu& b) {
+	return a.score < b.score;
+}
+int main()
+{
+	int n;
+	cin >> n;
+	stu students[30];
+	for (int i = 1;i <= n;i++)
+	{
+		cin >> students[i].studyNum >> students[i].name >> students[i].score;
+	}
+	sort(students + 1, students + n + 1, compareByScore);
+	for (int i = 1;i <= n;i++)
+	{
+		cout << students[i].studyNum << " " << students[i].name << " " << students[i].score << endl;
+	}
+	return 0;
+}
