@@ -1,0 +1,31 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+	int n;
+	cin >> n;
+	vector<string>num(n);
+	for (int i = 0;i < n;++i)
+	{
+		cin >> num[i];
+	}
+	for (int i = 0;i < n;++i)
+	{
+		for (int j = i + 1;j < n;++j)
+		{
+			string temp1, temp2;
+			temp1 = num[i] + num[j];
+			temp2 = num[j] + num[i];
+			if (temp1 >= temp2)
+			{
+				string temp ;
+				temp = num[i];
+				num[i] = num[j];
+				num[j] = temp;
+			}
+		}
+	}
+	for (int i = 0;i < n;++i)
+		cout << num[i];
+}
