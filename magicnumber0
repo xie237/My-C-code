@@ -1,0 +1,60 @@
+#include<iostream>
+#include<string>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+bool leadingzeros = false;
+string removeLeadingZeros(string str)
+{
+	size_t pos = str.find_first_not_of('0');
+	if (pos == string::npos) return "0";
+	return str.substr(pos);
+}
+int charToValue(char c)
+{
+	return c - '0';
+}
+int addStrings(const string& a)
+{
+	double base = 10,pos=0;
+	int sum = 0;
+	int i = a.size() - 1;
+	for (int j = i;j >= 0;j--)
+	{
+		sum += charToValue(a[j])*pow(base,pos);
+		pos++;
+	}
+	sum *= 2;
+	return sum;
+}
+string tostring(int num)
+{
+	string str;
+	while (num)
+	{
+		str += num % 10 + '0';
+		num /= 10;
+	}
+	return str;
+}
+bool haveSamedigits(int num)
+{
+	string str1 = tostring(num);
+	string str2 = tostring(num / 2);
+	if (leadingzeros == true) str2.push_back('0');
+	sort(str1.begin(), str1.end());
+	sort(str2.begin(), str2.end());
+	return str1 == str2;
+}
+int main()
+{
+	string num;
+	cin >> num;
+	if (num[0] == '0') 
+	{
+		num = removeLeadingZeros(num);leadingzeros = true;
+	}
+	int sum = addStrings(num);
+	if (haveSamedigits(sum)) cout << "Magic Number";
+	else cout << "Not Magic Number";
+}
