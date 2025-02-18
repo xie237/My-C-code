@@ -1,0 +1,56 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+bool leadingzeros = false;
+
+string removeLeadingZeros(string str)
+{
+    size_t pos = str.find_first_not_of('0');
+    if (pos == string::npos) return "0";
+    return str.substr(pos);
+}
+
+string multiplyByTwo(const string& num)
+{
+    string result;
+    int carry = 0;
+    for (int i = num.size() - 1; i >= 0; --i)
+    {
+        int digit = (num[i] - '0') * 2 + carry;
+        carry = digit / 10;
+        result.push_back((digit % 10) + '0');
+    }
+    if (carry)
+    {
+        result.push_back(carry + '0');
+    }
+    reverse(result.begin(), result.end());
+    return result;
+}
+
+bool haveSamedigits(const string& num1, const string& num2)
+{
+    string str1 = num1;
+    string str2 = num2;
+    if (leadingzeros) str2.push_back('0');
+    sort(str1.begin(), str1.end());
+    sort(str2.begin(), str2.end());
+    return str1 == str2;
+}
+
+int main()
+{
+    string num;
+    cin >> num;
+    if (num[0] == '0')
+    {
+        num = removeLeadingZeros(num);
+        leadingzeros = true;
+    }
+    string doubledNum = multiplyByTwo(num);
+    if (haveSamedigits(num, doubledNum)) cout << "Magic Number";
+    else cout << "Not Magic Number";
+}
