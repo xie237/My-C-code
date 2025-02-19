@@ -1,0 +1,36 @@
+n = int(input())
+
+if n == 1:
+    print(1)
+else:
+    prev = [-1] * n
+    added = [-1] * n
+    from collections import deque
+    queue = deque()
+    initial_remainder = 1 % n
+    prev[initial_remainder] = -1
+    added[initial_remainder] = 1
+    queue.append(initial_remainder)
+    found = False
+    
+    while queue:
+        r = queue.popleft()
+        if r == 0:
+            res = []
+            current = r
+            while current != -1:
+                res.append(str(added[current]))
+                current = prev[current]
+            res = res[::-1]
+            print(''.join(res))
+            found = True
+            break
+        for digit in [0, 1]:
+            new_r = (r * 10 + digit) % n
+            if prev[new_r] == -1:
+                prev[new_r] = r
+                added[new_r] = digit
+                queue.append(new_r)
+    
+    if not found:
+        print(0)
