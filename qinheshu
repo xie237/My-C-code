@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
+// 计算一个数的所有非自身正因子之和
+int sumOfDivisors(int n) {
+    int sum = 1; // 1 是所有正整数的因子
+    for (int i = 2; i * i <= n; ++i) {
+        if (n % i == 0) {
+            sum += i;
+            if (i != n / i) {
+                sum += n / i;
+            }
+        }
+    }
+    return sum;
+}
+
+int main() {
+    int A, B;
+    cin >> A >> B;
+
+    unordered_map<int, int> divisorSumMap;
+    int count = 0;
+
+    for (int i = A; i <= B; ++i) {
+        int sum = sumOfDivisors(i);
+        if (sum > i && sum <= B && sumOfDivisors(sum) == i) {
+            count++;
+        }
+    }
+
+    cout << count << endl;
+    return 0;
+}
