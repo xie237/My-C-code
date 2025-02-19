@@ -1,0 +1,38 @@
+#include <iostream>
+#include <vector>
+#include <set>
+#include <string>
+using namespace std;
+int main() {
+    vector<int> arr = {
+        5,6,8,6,9,1,6,1,2,4,9,1,9,8,2,3,6,4,7,7,5,9,5,0,3,8,7,5,8,1,5,8,6,1,8,3,0,3,7,9,2,
+        7,0,5,8,8,5,7,0,9,9,1,9,4,4,6,8,6,3,3,8,5,1,6,3,4,6,7,0,7,8,2,7,6,8,9,5,6,5,6,1,4,0,1,
+        0,0,9,4,8,0,9,1,2,8,5,0,2,5,3,3
+    };
+    vector<int> days_in_month = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+    set<string> dates;
+    for (int mm = 1; mm <= 12; ++mm) {
+        int days = days_in_month[mm - 1];
+        for (int dd = 1; dd <= days; ++dd) {
+            char buffer[9];
+            snprintf(buffer, sizeof(buffer), "2023%02d%02d", mm, dd);
+            dates.insert(string(buffer));
+        }
+    }
+    set<string> valid_dates;
+    for (const string& date : dates) {
+        size_t j = 0;
+        for (int num : arr) {
+            if (j >= date.size()) break;
+            if (num == (date[j] - '0')) {
+                j++;
+            }
+        }
+        if (j == date.size()) {
+            valid_dates.insert(date);
+        }
+    }
+    cout << valid_dates.size();
+
+    return 0;
+}
