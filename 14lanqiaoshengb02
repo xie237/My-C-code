@@ -1,0 +1,15 @@
+#include<stdio.h>
+#include<math.h>
+int main(){
+    double n = 23333333,sum = 0;
+    int o = 0,l = 0;
+    for(o = 0;o <= n/2;o++){
+        sum = 0;
+        sum -= o*(o / n) * log2(o / n) + (n - o)*((n - o) / n) * log2((n - o) / n);
+        if(sum > 11625907.5 && sum < 11625907.6){
+            printf("%d",o);
+            break;
+        }
+    }
+    return 0;
+}
