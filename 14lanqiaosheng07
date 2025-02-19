@@ -1,0 +1,54 @@
+//大神c:
+#include <bits/stdc++.h> 
+using namespace std;
+int K;
+long long ans=0,c1_sum=0;
+string S;
+char c1,c2;
+int main(){
+    cin>>K>>S>>c1>>c2;
+    for(int i=K-1,j=0;i<S.length();i++,j++){
+        if(S[j]==c1) c1_sum++;
+        if(S[i]==c2) ans+=c1_sum;
+    }
+    cout<<ans;
+    return 0;
+}
+//我的小白c++:
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int K;
+    string S;
+    char c1, c2;
+    cin >> K >> S >> c1 >> c2;
+    
+    vector<int> c1_pos, c2_pos;
+    for (int i = 0; i < S.size(); ++i) {
+        if (S[i] == c1) {
+            c1_pos.push_back(i);
+        }
+        if (S[i] == c2) {
+            c2_pos.push_back(i);
+        }
+    }
+    
+    long long ans = 0;
+    for (int pos : c1_pos) {
+        int target = pos + K - 1;
+        if (target > S.size() - 1) continue;
+        auto it = lower_bound(c2_pos.begin(), c2_pos.end(), target);
+        ans += c2_pos.end() - it;
+    }
+    
+    cout << ans << endl;
+    
+    return 0;
+}
