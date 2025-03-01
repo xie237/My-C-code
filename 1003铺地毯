@@ -1,0 +1,28 @@
+#include <iostream>
+using namespace std;
+struct Carpet {
+    int a, b, g, k;
+};
+Carpet carpets[10005];
+int main() {
+    int n;
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        cin >> carpets[i].a >> carpets[i].b >> carpets[i].g >> carpets[i].k;
+    }
+    int x, y;
+    cin >> x >> y;
+    int ans = -1;
+    for (int i = n - 1; i >= 0; --i) {
+        int a = carpets[i].a;
+        int b = carpets[i].b;
+        int g = carpets[i].g;
+        int k = carpets[i].k;
+        if (x >= a && x <= a + g && y >= b && y <= b + k) {
+            ans = i + 1;
+            break;
+        }
+    }
+    cout << ans << endl;
+    return 0;
+}
