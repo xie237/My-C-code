@@ -1,0 +1,17 @@
+#include <iostream>
+#include<string>
+using namespace std;
+int main()
+{
+  string s,t;
+  bool tf=false;
+  int num=0;
+  cin>>s>>t;
+for(char ch:t)
+{ size_t pos=s.find(ch);
+  if(pos==string::npos)  {cout<<num;return 0;}
+  else {num++;s=s.substr(pos+1);}
+}
+cout<<num;
+  return 0;
+}
