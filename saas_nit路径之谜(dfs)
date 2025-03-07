@@ -1,0 +1,80 @@
+#include <iostream>
+#include <vector>
+#include <functional>
+using namespace std;
+int n;
+void road(vector<int> bei, vector<int> xi, vector<vector<int>> matrix) {
+    vector<int> bei_remain = bei;
+    vector<int> xi_remain = xi;
+    vector<vector<bool>> visited(n, vector<bool>(n, false));
+    visited[0][0] = true;
+    bei_remain[0]--;
+    xi_remain[0]--;
+    vector<int> path = { matrix[0][0] };
+
+    const int dirs[4][2] = { {-1,0}, {1,0}, {0,-1}, {0,1} };
+
+    function<bool(int, int)> dfs = [&](int i, int j) -> bool {
+        if (i == n - 1 && j == n - 1) {
+            for (int k = 0; k < n; k++) {
+                if (bei_remain[k] != 0 || xi_remain[k] != 0) return false;
+            }
+            for (size_t idx = 0; idx < path.size(); idx++) {
+                cout << path[idx];
+                if (idx != path.size() - 1) cout << " ";
+            }
+            cout << endl;
+            return true;
+        }
+
+        for (const auto& dir : dirs) {
+            int ni = i + dir[0];
+            int nj = j + dir[1];
+            if (ni >= 0 && ni < n && nj >= 0 && nj < n && !visited[ni][nj]) {
+                if (bei_remain[nj] > 0 && xi_remain[ni] > 0) {
+                    bei_remain[nj]--;
+                    xi_remain[ni]--;
+                    visited[ni][nj] = true;
+                    path.push_back(matrix[ni][nj]);
+
+                    if (dfs(ni, nj)) {
+                        return true;
+                    }
+
+                    path.pop_back();
+                    visited[ni][nj] = false;
+                    bei_remain[nj]++;
+                    xi_remain[ni]++;
+                }
+            }
+        }
+        return false;
+        };
+
+    dfs(0, 0);
+}
+
+void position(vector<vector<int>>& matrix, int n) {
+    int number = 0;
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            matrix[i][j] = number++;
+        }
+    }
+}
+
+int main() {
+    cin >> n;
+    vector<int> bei(n);
+    vector<int> xi(n);
+    vector<vector<int>> matrix(n, vector<int>(n));
+    position(matrix, n);
+    for (int i = 0; i < n; i++) {
+        cin >> bei[i];
+    }
+    for (int i = 0; i < n; i++) {
+        cin >> xi[i];
+    }
+    road(bei, xi, matrix);
+    return 0;
+}
