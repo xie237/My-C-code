@@ -11,3 +11,9 @@ int main() {
     // 此时 v 中的 3 已被全部删除：{1, 2, 4, 5}
     return 0;
 }
+
+
+auto it = find(v.begin(), v.end(), 3); // 查找第一个 3
+if (it != v.end()) {
+    v.erase(it); // 删除找到的元素
+}
