@@ -1,0 +1,13 @@
+#include <vector>
+#include <algorithm> // 需要包含 remove 函数
+using namespace std;
+
+int main() {
+    vector<int> v = {1, 3, 2, 3, 4, 3, 5};
+    
+    // 删除所有值为 3 的元素
+    v.erase(remove(v.begin(), v.end(), 3), v.end());
+    
+    // 此时 v 中的 3 已被全部删除：{1, 2, 4, 5}
+    return 0;
+}
