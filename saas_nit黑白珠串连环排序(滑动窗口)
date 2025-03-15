@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int compute_max(const vector<int>& arr, int n, int k, int target) {
+    if (k == 0) return 0;
+    vector<int> arr2(arr.begin(), arr.end());
+    arr2.insert(arr2.end(), arr.begin(), arr.end());
+    int current = 0;
+    for (int i = 0; i < k; ++i) {
+        if (arr2[i] == target) current++;
+    }
+    int max_count = current;
+    for (int i = 1; i < n; ++i) {
+        int out = arr2[i - 1];
+        if (out == target) current--;
+        int in_pos = i + k - 1;
+        int in = arr2[in_pos];
+        if (in == target) current++;
+        if (current > max_count) {
+            max_count = current;
+        }
+    }
+    return max_count;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    vector<int> arr(n);
+    int m = 0; // number of 0s
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+        if (arr[i] == 0) m++;
+    }
+    if (m == 0 || m == n) {
+        cout << 0 << endl;
+        return 0;
+    }
+    int option1 = m - compute_max(arr, n, m, 0);
+    int option2 = (n - m) - compute_max(arr, n, n - m, 1);
+    cout << min(option1, option2) << endl;
+    return 0;
+}
