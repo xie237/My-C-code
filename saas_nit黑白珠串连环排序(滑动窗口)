@@ -44,3 +44,22 @@ int main() {
     cout << min(option1, option2) << endl;
     return 0;
 }
+环分解:
+int min_swaps(vector<int>& beads, int target) {
+    vector<int> pos; // 记录目标珠位置
+    for(int i=0; i<beads.size(); ++i)
+        if(beads[i] == target) pos.push_back(i);
+    
+    int m = pos.size();
+    int min_steps = INT_MAX;
+    
+    // 检查所有可能的环形排列起点
+    for(int i=0; i<m; ++i){
+        int steps = 0;
+        // 计算理想连续位置与实际位置的差值
+        for(int j=0; j<m; ++j)
+            steps += abs(pos[j] - (pos[i] - i + j)) % beads.size();
+        min_steps = min(min_steps, steps/2); // 每交换解决两个错位
+    }
+    return min_steps;
+}
