@@ -63,3 +63,79 @@ int min_swaps(vector<int>& beads, int target) {
     }
     return min_steps;
 }
+
+
+#include <vector>
+#include <climits>
+#include <algorithm>
+
+using namespace std;
+
+int min_swaps(vector<int>& beads, int target) {
+    int n = beads.size();
+    vector<int> pos;
+    for (int i = 0; i < n; ++i) {
+        if (beads[i] == target) {
+            pos.push_back(i);
+        }
+    }
+    int m = pos.size();
+    if (m <= 1) return 0; // 无需交换
+    
+    int min_steps = INT_MAX;
+    
+    for (int i = 0; i < m; ++i) {
+        int steps = 0;
+        for (int j = 0; j < m; ++j) {
+            // 计算理想位置（环形处理）
+            int expected = (pos[i] - i + j) % n;
+            if (expected < 0) expected += n; // 确保非负
+            
+            // 计算最短环形距离
+            int d = abs(pos[j] - expected);
+            d = min(d, n - d);//顺逆时针
+            steps += d;
+        }
+        min_steps = min(min_steps, steps / 2);
+    }
+    
+    return min_steps;
+}
+
+
+int min_swaps(vector<int>& beads, int target) {
+    int n = beads.size();
+    vector<int> pos;
+    for (int i = 0; i < n; ++i) {
+        if (beads[i] == target) pos.push_back(i);
+    }
+    int m = pos.size();
+    if (m <= 1) return 0;
+    
+    // 计算理想排列的起始位置
+    int min_steps = INT_MAX;
+    for (int i = 0; i < m; ++i) {
+        vector<bool> visited(m, false);
+        int cycles = 0;
+        
+        for (int j = 0; j < m; ++j) {
+            if (visited[j]) continue;
+            
+            int cycle_size = 0;
+            int k = j;
+            while (!visited[k]) {
+                visited[k] = true;
+                // 计算当前珠子应该在的位置
+                int expected = (pos[i] - i + k) % n;
+                if (expected < 0) expected += n;
+                
+                // 找到实际位置对应的索引
+                k = lower_bound(pos.begin(), pos.end(), expected) - pos.begin();
+                cycle_size++;
+            }
+            cycles += (cycle_size - 1);
+        }
+        min_steps = min(min_steps, cycles);
+    }
+    return min_steps;
+}
