@@ -1,0 +1,27 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    int arr[n];
+    for (int i = 0; i < n; ++i) cin >> arr[i];
+
+    bool visited[n] = {false};
+    int cycles = 0;
+
+    for (int i = 0; i < n; ++i) {
+        if (!visited[i]) {
+            // 发现一个新的环
+            int j = i;
+            while (!visited[j]) {
+                visited[j] = true; // 标记已访问
+                j = arr[j] - 1;    // 找到当前瓶子应该放到的位置
+            }
+            cycles++; // 环数量+1
+        }
+    }
+
+    cout << (n - cycles) << endl;
+    return 0;
+}
