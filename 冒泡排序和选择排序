@@ -1,0 +1,51 @@
+#include <stdio.h>
+//选择排序
+void selectionSort(int arr[], int len) {
+    for (int i = 0; i < len - 1; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j < len; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j; // 更新最小值索引
+            }
+        }
+        // 交换元素
+        if (minIndex != i) {
+            int temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+}
+//冒泡排序
+
+void bubbleSort(int arr[], int len) {
+    int swapped;
+    for (int i = 0; i < len - 1; i++) {
+        swapped = 0;
+        for (int j = 0; j < len - 1 - i; j++) {
+            if (arr[j] > arr[j + 1]) {
+                // 交换元素
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                swapped = 1;
+            }
+        }
+        if (!swapped) break; // 提前终止
+    }
+}
+int main() {
+    int arr1[] = {5, 3, 8, 6, 4};
+    int len1 = sizeof(arr1)/sizeof(arr1[0]);
+    bubbleSort(arr1, len1);
+    printf("冒泡排序结果: ");
+    for (int i = 0; i < len1; i++) printf("%d ", arr1[i]);
+
+    int arr2[] = {5, 3, 8, 6, 4};
+    int len2 = sizeof(arr2)/sizeof(arr2[0]);
+    selectionSort(arr2, len2);
+    printf("\n选择排序结果: ");
+    for (int i = 0; i < len2; i++) printf("%d ", arr2[i]);
+
+    return 0;
+}
