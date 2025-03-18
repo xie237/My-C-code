@@ -1,0 +1,31 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+int main() {
+    std::vector<int> vec = {9, 3, 7, 5, 1};
+    
+    // 必须先排序！
+    std::sort(vec.begin(), vec.end()); // 排序后为 {1, 3, 5, 7, 9}
+
+    // 使用 binary_search 检查存在性
+    bool hasFive = std::binary_search(vec.begin(), vec.end(), 5); // true
+
+    // 使用 lower_bound 找到插入位置
+    auto it = std::lower_bound(vec.begin(), vec.end(), 6);
+    if (it != vec.end()) {
+        std::cout << "第一个不小于 6 的元素是: " << *it << std::endl; // 输出 7
+    }
+
+    // 使用 equal_range 找范围
+    auto range = std::equal_range(vec.begin(), vec.end(), 5);
+    if (range.first != range.second) {
+        std::cout << "元素 5 存在于列表中" << std::endl;
+    }
+
+    return 0;
+}
+
+
+//auto it = std::upper_bound(vec.begin(), vec.end(), 5);
+  // 返回指向 7 的迭代器（第一个大于 5 的元素）
