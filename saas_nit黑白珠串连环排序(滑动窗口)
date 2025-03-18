@@ -29,7 +29,7 @@ int compute_max(const vector<int>& arr, int n, int k, int target) {
 int main() {
     int n;
     cin >> n;
-    vector<int> arr(n);
+    vector<int> arr(n);//vector没有(n)是不分配数组空间的
     int m = 0; // number of 0s
     for (int i = 0; i < n; ++i) {
         cin >> arr[i];
