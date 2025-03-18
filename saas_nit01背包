@@ -1,0 +1,193 @@
+#include <iostream>
+#include <vector>
+#include <algorithm> // 用于max函数
+
+using namespace std;
+
+/**
+ * 经典01背包问题求解函数
+ * @param weight 物品重量数组
+ * @param value 物品价值数组
+ * @param capacity 背包容量
+ * @return 能装入背包的最大价值
+ */
+int knapsack(vector<int>& weight, vector<int>& value, int capacity) {
+    int n = weight.size();
+    vector<int> dp(capacity + 1, 0); // 初始化dp数组
+    
+    // 动态规划过程
+    for (int i = 0; i < n; ++i) {
+        // 逆序遍历防止覆盖之前的状态
+        for (int j = capacity; j >= weight[i]; --j) {
+            dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+        }
+    }
+    return dp[capacity];
+}
+
+int main() {
+    int n, capacity;
+    
+    // 输入物品数量和背包容量
+    cout << "输入物品数量: ";
+    cin >> n;
+    cout << "输入背包容量: ";
+    cin >> capacity;
+
+    // 输入物品重量和价值
+    vector<int> weight(n), value(n);
+    cout << "依次输入每个物品的重量和价值（格式：重量 价值）:" << endl;
+    for (int i = 0; i < n; ++i) {
+        cout << "物品" << i+1 << ": ";
+        cin >> weight[i] >> value[i];
+    }
+
+    // 计算并输出结果
+    int max_value = knapsack(weight, value, capacity);
+    cout << "最大价值为: " << max_value << endl;
+
+    return 0;
+}
+
+//1.经典01背包
+int knapsack(vector<int>& weight, vector<int>& value, int capacity) {
+    int n = weight.size();
+    vector<int> dp(capacity + 1, 0);
+    for (int i = 0; i < n; ++i) {
+        for (int j = capacity; j >= weight[i]; --j) {
+            dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+        }
+    }
+    return dp[capacity];
+}
+
+//2.恰好装满背包
+int knapsackExact(vector<int>& weight, vector<int>& value, int capacity) {
+    int n = weight.size();
+    vector<int> dp(capacity + 1, INT_MIN);
+    dp[0] = 0;
+    for (int i = 0; i < n; ++i) {
+        for (int j = capacity; j >= weight[i]; --j) {
+            if (dp[j - weight[i]] != INT_MIN) {
+                dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+            }
+        }
+    }
+    return dp[capacity] == INT_MIN ? -1 : dp[capacity];
+}
+
+//3.方案数统计
+int knapsackCount(vector<int>& weight, int capacity) {
+    int n = weight.size();
+    vector<int> dp(capacity + 1, 0);
+    dp[0] = 1;
+    for (int i = 0; i < n; ++i) {
+        for (int j = capacity; j >= weight[i]; --j) {
+            dp[j] += dp[j - weight[i]];
+        }
+    }
+    return dp[capacity];
+}
+
+
+//4.二维费用背包(两个费用维度，如体积，重量)
+int knapsack2D(vector<int>& vol, vector<int>& wei, vector<int>& value, int V, int W) {
+    int n = vol.size();
+    vector<vector<int>> dp(V + 1, vector<int>(W + 1, 0));
+    for (int i = 0; i < n; ++i) {
+        int v = vol[i], w = wei[i], val = value[i];
+        for (int j = V; j >= v; --j) {
+            for (int k = W; k >= w; --k) {
+                dp[j][k] = max(dp[j][k], dp[j - v][k - w] + val);
+            }
+        }
+    }
+    return dp[V][W];
+}
+
+//5.具体方案输出
+vector<int> knapsackTrace(vector<int>& weight, vector<int>& value, int capacity) {
+    int n = weight.size();
+    vector<vector<int>> dp(n + 1, vector<int>(capacity + 1, 0));
+    vector<vector<bool>> chosen(n, vector<bool>(capacity + 1, false));
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j <= capacity; ++j) {
+            dp[i + 1][j] = dp[i][j];
+            if (j >= weight[i] && dp[i][j - weight[i]] + value[i] > dp[i + 1][j]) {
+                dp[i + 1][j] = dp[i][j - weight[i]] + value[i];
+                chosen[i][j] = true;
+            }
+        }
+    }
+
+    vector<int> selected;
+    int i = n - 1, j = capacity;
+    while (i >= 0 && j >= 0) {
+        if (chosen[i][j]) {
+            selected.push_back(i);
+            j -= weight[i];
+        }
+        i--;
+    }
+    reverse(selected.begin(), selected.end());
+    return selected;
+}
+
+//6.分组背包问题
+int groupKnapsack(vector<vector<pair<int, int>>>& groups, int capacity) {
+    vector<int> dp(capacity + 1, 0);
+    for (auto& group : groups) {
+        for (int j = capacity; j >= 0; --j) {
+            for (auto& item : group) {
+                int w = item.first, v = item.second;
+                if (j >= w) {
+                    dp[j] = max(dp[j], dp[j - w] + v);
+                }
+            }
+        }
+    }
+    return dp[capacity];
+}
+
+//7.第k优解问题
+int knapsackKth(vector<int>& weight, vector<int>& value, int capacity, int K) {
+    int n = weight.size();
+    vector<vector<int>> dp(capacity + 1, vector<int>(1, -1));
+    dp[0][0] = 0;
+    for (int i = 0; i < n; ++i) {
+        int w = weight[i], v = value[i];
+        for (int j = capacity; j >= w; --j) {
+            vector<int> tmp;
+            int a = 0, b = 0;
+            while (a < dp[j].size() || b < dp[j - w].size()) {
+                int val1 = (a < dp[j].size()) ? dp[j][a] : -1;
+                int val2 = (b < dp[j - w].size()) ? dp[j - w][b] + v : -1;
+                if (val1 > val2) tmp.push_back(dp[j][a++]);
+                else tmp.push_back(dp[j - w][b++] + v);
+                if (tmp.size() == K) break;
+            }
+            dp[j] = tmp;
+        }
+    }
+    return (dp[capacity].size() >= K) ? dp[capacity][K - 1] : -1;
+}
+
+//8.大容量优化(基于价值)
+int valueBasedKnapsack(vector<int>& weight, vector<int>& value, int capacity) {
+    int totalValue = accumulate(value.begin(), value.end(), 0);
+    vector<int> dp(totalValue + 1, INT_MAX);
+    dp[0] = 0;
+    for (int i = 0; i < value.size(); ++i) {
+        int v = value[i], w = weight[i];
+        for (int j = totalValue; j >= v; --j) {
+            if (dp[j - v] != INT_MAX) {
+                dp[j] = min(dp[j], dp[j - v] + w);
+            }
+        }
+    }
+    for (int j = totalValue; j >= 0; --j) {
+        if (dp[j] <= capacity) return j;
+    }
+    return 0;
+}
