@@ -1,0 +1,25 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+
+using namespace std;
+
+int main() {
+    int K;
+    cin >> K;
+    priority_queue<int, vector<int>, greater<int>> min_heap;
+    min_heap.push(1);
+    int ans = 0;
+    for (int i = 0; i < K; ++i) {
+        ans = min_heap.top();
+        min_heap.pop();
+        if (ans % 2 == 0) {
+            min_heap.push(ans * 2);
+            min_heap.push(ans * 2 + 1);
+        } else {
+            min_heap.push(ans * 2);
+        }
+    }
+    cout << ans << endl;
+    return 0;
+}
