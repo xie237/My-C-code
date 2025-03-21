@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+  long long a,b,n;
+  cin>>a>>b>>n;
+  long long weektotal=5*a+2*b;
+  long long fullweek=n/weektotal;
+  long long remaining=n%weektotal;
+  if(remaining==0)
+    cout<<7*fullweek;
+  long long daysneeded=0;
+  long long currenttotal=0;
+  for(int day=1;day<=7;day++)
+  {
+    if(day<=5)
+    {currenttotal+=a;}
+    else
+    {currenttotal+=b;}
+    daysneeded++;
+    if(currenttotal>=remaining) break;
+  }
+  cout<<fullweek*7+daysneeded;
+  return 0;
+}
