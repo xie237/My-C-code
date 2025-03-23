@@ -1,0 +1,92 @@
+#include <iostream>
+#include <unordered_set>
+#include <numeric>
+#include <cmath>
+
+struct LineKey {
+    int dy;
+    int dx;
+    int by;
+    int b_div;
+
+    bool operator==(const LineKey& other) const {
+        return dy == other.dy && dx == other.dx && by == other.by && b_div == other.b_div;
+    }
+};
+
+namespace std {
+    template<> struct hash<LineKey> {
+        size_t operator()(const LineKey& k) const {
+            return ((hash<int>()(k.dy)
+                ^ (hash<int>()(k.dx) << 1)) >> 1
+                ^ (hash<int>()(k.by) << 1)
+                ^ (hash<int>()(k.b_div) << 1);
+        }
+    };
+}
+
+int count_lines() {
+    const int width = 20;
+    const int height = 21;
+    std::unordered_set<LineKey> lines;
+
+    // 添加水平线 (y = c)
+    for (int y = 0; y < height; ++y) {
+        lines.insert({0, 1, y, 1});
+    }
+
+    // 添加垂直线 (x = c)
+    for (int x = 0; x < width; ++x) {
+        lines.insert({1, 0, x, 1});
+    }
+
+    // 处理斜线
+    for (int x1 = 0; x1 < width; ++x1) {
+        for (int y1 = 0; y1 < height; ++y1) {
+            for (int x2 = 0; x2 < width; ++x2) {
+                for (int y2 = 0; y2 < height; ++y2) {
+                    if (x1 == x2 && y1 == y2) continue;
+                    if (x1 == x2 || y1 == y2) continue; // 已处理水平和垂直线
+
+                    int dx = x2 - x1;
+                    int dy = y2 - y1;
+
+                    // 简化斜率
+                    int gcd_val = std::gcd(dy, dx);
+                    int s_dy = dy / gcd_val;
+                    int s_dx = dx / gcd_val;
+
+                    // 统一方向表示
+                    if (s_dx < 0) {
+                        s_dx = -s_dx;
+                        s_dy = -s_dy;
+                    }
+
+                    // 计算截距 (by = dy*x1 - dx*y1)
+                    int numerator = dy * x1 - dx * y1;
+                    int denominator = dx;
+                    
+                    // 简化截距
+                    int gcd_b = std::gcd(numerator, denominator);
+                    numerator /= gcd_b;
+                    denominator /= gcd_b;
+
+                    // 统一分母符号
+                    if (denominator < 0) {
+                        numerator = -numerator;
+                        denominator = -denominator;
+                    }
+
+                    lines.insert({s_dy, s_dx, numerator, denominator});
+                }
+            }
+        }
+    }
+
+    return lines.size();
+}
+
+int main() {
+    std::cout << "Total distinct lines: " << count_lines() << std::endl;
+    return 0;
+}
