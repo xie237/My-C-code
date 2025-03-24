@@ -1,0 +1,35 @@
+#include <iostream>
+#include <map>
+using namespace std;
+
+typedef long long ll;
+
+map<ll, int> primeFactors(ll n) {
+    map<ll, int> factors;
+    while (n % 2 == 0) {
+        factors[2]++;
+        n /= 2;
+    }
+    for (ll i = 3; i * i <= n; i += 2) {
+        while (n % i == 0) {
+            factors[i]++;
+            n /= i;
+        }
+    }
+    if (n > 2) {
+        factors[n]++;
+    }
+    return factors;
+}
+
+int main() {
+    ll n = 2021041820210418;
+    map<ll, int> factors = primeFactors(n);
+    ll result = 1;
+    for (auto &factor : factors) {
+        int exponent = factor.second;
+        result *= (exponent + 2) * (exponent + 1) / 2;
+    }
+    cout << result << endl;
+    return 0;
+}
