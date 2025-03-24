@@ -9,7 +9,7 @@ map<ll, int> primeFactors(ll n) {
     while (n % 2 == 0) {
         factors[2]++;
         n /= 2;
-    }
+    }//定义一个函数 `primeFactors`，接受一个 `long long` 类型的参数 `n`，返回一个 `map<ll, int>`，其中键是质因数，值是对应的指数。
     for (ll i = 3; i * i <= n; i += 2) {
         while (n % i == 0) {
             factors[i]++;
