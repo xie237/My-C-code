@@ -1,0 +1,58 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+bool is_leap(int year) {
+    if (year % 400 == 0) return true;
+    if (year % 100 == 0) return false;
+    if (year % 4 == 0) return true;
+    return false;
+}
+
+int main() {
+    string date1, date2;
+    cin >> date1 >> date2;
+    int n1 = stoi(date1);
+    int n2 = stoi(date2);
+    int count = 0;
+
+    for (int y = 1000; y <= 9999; ++y) {
+        string s = to_string(y);
+        string reversed_s(s.rbegin(), s.rend());
+        string m_str = reversed_s.substr(0, 2);
+        string d_str = reversed_s.substr(2, 2);
+
+        int m, d;
+        try {
+            m = stoi(m_str);
+            d = stoi(d_str);
+        } catch (...) {
+            continue;
+        }
+
+        if (m < 1 || m > 12) continue;
+        if (d < 1) continue;
+
+        int max_day;
+        if (m == 1 || m == 3 || m == 5 || m == 7 || m == 8 || m == 10 || m == 12) {
+            max_day = 31;
+        } else if (m == 4 || m == 6 || m == 9 || m == 11) {
+            max_day = 30;
+        } else if (m == 2) {
+            max_day = is_leap(y) ? 29 : 28;
+        } else {
+            continue;
+        }
+
+        if (d > max_day) continue;
+
+        int date_num = y * 10000 + m * 100 + d;
+        if (date_num >= n1 && date_num <= n2) {
+            ++count;
+        }
+    }
+
+    cout << count << endl;
+    return 0;
+}
