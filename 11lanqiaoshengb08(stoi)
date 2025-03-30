@@ -30,6 +30,14 @@ int main() {
         } catch (...) {
             continue;
         }
+//try {
+    m = stoi(m_str);
+    d = stoi(d_str);
+} catch (const invalid_argument& e) {
+    continue;  // 字符串不是数字（如 "ab"）
+} catch (const out_of_range& e) {
+    continue;  // 数字超出 int 范围（如 "9999999999"）
+}
 
         if (m < 1 || m > 12) continue;
         if (d < 1) continue;
