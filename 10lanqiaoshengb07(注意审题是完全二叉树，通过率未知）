@@ -1,0 +1,52 @@
+#include <iostream>
+#include<vector>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+int findmaxindex(vector<int>sum)
+{
+  if(sum.empty()) return -1;
+  int maxindex=0;
+  int maxvalue=sum[0];
+  for(int i=1;i<sum.size();i++)
+  {
+    if(sum[i]>maxvalue){
+      maxvalue=sum[i];
+      maxindex=i;
+    }
+  }
+  return maxindex;
+}
+int main()
+{
+  int n;
+  cin>>n;
+  vector<int>a(n);
+  vector<int>sum(1);
+  vector<bool>atf(n,false);
+  bool tf=false;
+  int j=2;
+  for(int i=0;i<n;i++)
+  {
+    cin>>a[i];
+  }
+  sum[0]=a[0];
+  atf[0]=true;
+  for(int i=0;i<n;i++)
+  {
+    if(atf[i]) continue;
+    int s=0;
+    for(int k=i;k<i+j;k++)
+    {
+      s+=a[k];
+      atf[k]=true;
+      if(k+1>=a.size()) {tf=true;break;}
+    }
+    sum.push_back(s);
+    j*=2;
+    if(tf) break;
+  }
+  int max=findmaxindex(sum);
+  cout<<max+1;
+  return 0;
+}
