@@ -1,0 +1,84 @@
+#include <iostream>
+#include <stack>
+#include <vector>
+#include <sstream>
+#include <stdexcept>
+
+using namespace std;
+
+// 判断是否为运算符
+bool is_operator(const string& token) {
+    return token == "+" || token == "-" || token == "*" || token == "/";
+}
+
+// 判断是否为数字（支持整数和负数）
+bool is_number(const string& token) {
+    if (token.empty()) return false;
+    size_t start = 0;
+    if (token[0] == '-' || token[0] == '+') {
+        start = 1;
+        if (token.size() == 1) return false; // 仅有符号无效
+    }
+    for (size_t i = start; i < token.size(); ++i) {
+        if (!isdigit(token[i])) return false;
+    }
+    return true;
+}
+
+// 执行运算
+int apply_operator(int a, int b, const string& op) {
+    if (op == "+") return a + b;
+    if (op == "-") return a - b;
+    if (op == "*") return a * b;
+    if (op == "/") {
+        if (b == 0) throw runtime_error("Division by zero");
+        return a / b;
+    }
+    throw invalid_argument("Invalid operator");
+}
+
+// 后缀表达式求值
+int evaluate_postfix(const string& expr) {
+    stack<int> st;
+    vector<string> tokens;
+    istringstream iss(expr);
+    string token;
+
+    // 分割表达式为tokens
+    while (iss >> token) {
+        tokens.push_back(token);
+    }
+
+    for (const auto& token : tokens) {
+        if (is_number(token)) {
+            st.push(stoi(token));
+        } else if (is_operator(token)) {
+            if (st.size() < 2) {
+                throw runtime_error("Insufficient operands for operator " + token);
+            }
+            int b = st.top(); st.pop();
+            int a = st.top(); st.pop();
+            int result = apply_operator(a, b, token);
+            st.push(result);
+        } else {
+            throw invalid_argument("Invalid token: " + token);
+        }
+    }
+
+    if (st.size() != 1) {
+        throw runtime_error("Invalid expression");
+    }
+
+    return st.top();
+}
+
+int main() {
+    string expr = "5 1 2 + 4 * + 3 -"; // 示例表达式，结果为14
+    try {
+        int result = evaluate_postfix(expr);
+        cout << "Result: " << result << endl;
+    } catch (const exception& e) {
+        cerr << "Error: " << e.what() << endl;
+    }
+    return 0;
+}
