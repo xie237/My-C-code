@@ -1,0 +1,23 @@
+#include <iomanip>
+#include <iostream>
+using namespace std;
+
+int fibo(int num) {
+    if (num == 1 || num == 2 || num == 3) return 1;
+    int a = 1, b = 1, c = 1, d;
+    for (int i = 4; i <= num; i++) {
+        d = (a + b + c) % 10000;
+        a = b;
+        b = c;
+        c = d;
+    }
+    return c;
+}
+
+int main() {
+    int num = 20190324;
+    int four = fibo(num);
+    // 输出4位数字，不足补前导零
+    cout << setw(4) << setfill('0') << four << endl;
+    return 0;
+}
