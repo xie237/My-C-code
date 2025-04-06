@@ -27,5 +27,14 @@ int main() {
     cout << setw(2) << setfill('0') << hours << ":"
          << setw(2) << setfill('0') << minutes << endl;
 
+//#include <cstdio>  // 需要包含头文件
+
+int hours = 5;
+int minutes = 9;
+
+char buffer[6];  // 存储 "HH:MM\0"（5个字符 + '\0'）
+snprintf(buffer, sizeof(buffer), "%02d:%02d", hours, minutes);
+printf("%s\n", buffer);  // 输出 "05:09"
+
     return 0;
 }
