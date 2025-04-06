@@ -1,0 +1,52 @@
+int bruteForce(const string& text, const string& pattern) {
+    int n = text.size(), m = pattern.size();
+    for (int i = 0; i <= n - m; ++i) {
+        int j;
+        for (j = 0; j < m; ++j) {
+            if (text[i + j] != pattern[j]) {
+                break; // 不匹配，跳出内层循环
+            }
+        }
+        if (j == m) {
+            return i; // 找到匹配，返回起始位置
+        }
+    }
+    return -1; // 未找到
+}
+
+
+
+vector<int> buildNext(const string& pattern) {
+    int m = pattern.size();
+    vector<int> next(m, 0);
+    int j = 0; // 当前匹配的位置
+    for (int i = 1; i < m; ++i) {
+        while (j > 0 && pattern[i] != pattern[j]) {
+            j = next[j - 1]; // 回退到前一个匹配位置
+        }
+        if (pattern[i] == pattern[j]) {
+            j++;
+        }
+        next[i] = j;
+    }
+    return next;
+}
+int kmp(const string& text, const string& pattern) {
+    vector<int> next = buildNext(pattern);
+    int n = text.size(), m = pattern.size();
+    int i = 0, j = 0; // i遍历text，j遍历pattern
+    while (i < n) {
+        if (text[i] == pattern[j]) {
+            i++;
+            j++;
+        } else if (j > 0) {
+            j = next[j - 1]; // 根据next数组回退
+        } else {
+            i++; // j=0且不匹配，主串后移
+        }
+        if (j == m) {
+            return i - m; // 返回匹配的起始位置
+        }
+    }
+    return -1;
+}
