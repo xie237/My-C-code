@@ -16,7 +16,9 @@ int main() {
     if (it != vec.end()) {
         std::cout << "第一个不小于 6 的元素是: " << *it << std::endl; // 输出 7
     }
-int t=std::lower_bound(vec.begin(), vec.end(), 6)-vec.begin();//获取下标
+int t=std::lower_bound(vec.begin(), vec.end(), 6)-vec.begin();//获取下标(找不到会返回不存在的下标)
+
+
     // 使用 equal_range 找范围
     auto range = std::equal_range(vec.begin(), vec.end(), 5);
     if (range.first != range.second) {
