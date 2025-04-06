@@ -30,7 +30,7 @@
 	//删除，需要保证指针链接性
 	for (auto it = vec.begin(); it != vec.end();) {
 		if (*it == 4)it = vec.erase(it);//erase函数会返回删除该位的下一位的指针
-		it++;
+		else it++;
 	}
 
 	//遍历，常用两种
