@@ -20,3 +20,32 @@ int main()
 	cout << sum;
 	return 0;
 }
+
+
+
+
+vector<vector<int>> matrix;
+vector<int> row;
+
+// 向内层 vector 添加元素
+row.push_back(1);
+row.push_back(2);
+
+// 将整行添加到二维 vector
+matrix.push_back(row);
+c++11及以上版本:
+matrix.push_back(vector<int>{3, 4});  // 显式构造
+matrix.push_back({5, 6});             // 使用初始化列表（更简洁）
+
+vector<vector<int>> matrix;
+for (int i = 0; i < 3; i++) {
+    vector<int> row;  // 每次循环创建新行
+    for (int j = 0; j < 2; j++) {
+        row.push_back(i * 10 + j);  // 填充数据（例如 00, 01, 10, 11...）
+    }
+    matrix.push_back(row);  // 添加行到二维 vector
+}
+
+matrix.push_back(vector<int>());  // 添加空行
+matrix.back().push_back(7);       // 在最后一行的末尾添加元素
+matrix.back().push_back(8);
