@@ -1,0 +1,127 @@
+我的想法
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+typedef struct {
+    int id;
+    vector<int> ts;
+} Form;
+
+int main() {
+    int n, d, k;
+    cin >> n >> d >> k;
+    
+    vector<Form> p;
+    
+    // 1. 读取数据并组织
+    for (int i = 0; i < n; i++) {
+        int ts, id;
+        cin >> ts >> id;
+        
+        bool found = false;
+        for (auto& item : p) {
+            if (item.id == id) {
+                item.ts.push_back(ts);
+                found = true;
+                break;
+            }
+        }
+        
+        if (!found) {
+            Form newForm;
+            newForm.id = id;
+            newForm.ts.push_back(ts);
+            p.push_back(newForm);
+        }
+    }
+    
+    // 2. 对每个ID的时间戳排序
+    for (auto& item : p) {
+        sort(item.ts.begin(), item.ts.end());
+    }
+    
+    // 3. 统计每个ID在时间段内的点赞数（左闭右开）
+    vector<int> result;
+    
+    for (const auto& item : p) {
+        const vector<int>& ts_list = item.ts;
+        int max_count = 0;
+        
+        for (int i = 0; i < ts_list.size(); i++) {
+            int end_time = ts_list[i] + d;
+            // 使用lower_bound找第一个≥end_time的位置
+            auto it = lower_bound(ts_list.begin(), ts_list.end(), end_time);
+            int count = it - (ts_list.begin() + i);
+            
+            if (count > max_count) {
+                max_count = count;
+            }
+        }
+        
+        if (max_count >= k) {
+            result.push_back(item.id);
+        }
+    }
+    
+    // 4. 对结果按id排序输出
+    sort(result.begin(), result.end());
+    
+    // 5. 输出结果
+    for (const auto& id : result) {
+        cout << id << endl;
+    }
+    
+    return 0;
+}
+
+
+
+deepseek
+
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int N, D, K;
+    cin >> N >> D >> K;
+    unordered_map<int, vector<int>> logs;
+
+    for (int i = 0; i < N; ++i) {
+        int ts, id;
+        cin >> ts >> id;
+        logs[id].push_back(ts);
+    }
+
+    vector<int> hot_ids;
+    for (auto& entry : logs) {
+        int id = entry.first;
+        vector<int>& times = entry.second;
+        sort(times.begin(), times.end());
+
+        bool is_hot = false;
+        int size = times.size();
+        for (int i = 0; i <= size - K; ++i) {
+            if (times[i + K - 1] - times[i] < D) {
+                is_hot = true;
+                break;
+            }
+        }
+
+        if (is_hot) {
+            hot_ids.push_back(id);
+        }
+    }
+
+    sort(hot_ids.begin(), hot_ids.end());
+    for (int id : hot_ids) {
+        cout << id << endl;
+    }
+
+    return 0;
+}
