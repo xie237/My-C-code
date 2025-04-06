@@ -125,3 +125,22 @@ int main() {
 
     return 0;
 }
+
+
+双指针法优化滑动窗口
+
+// 使用 emplace_back 替代 push_back（更高效）
+logs[id].emplace_back(ts);
+
+// 使用滑动窗口的更高效实现（双指针法）
+sort(times.begin(), times.end());
+int left = 0;
+for (int right = 0; right < times.size(); ++right) {
+    while (times[right] - times[left] >= D) {
+        left++;
+    }
+    if (right - left + 1 >= K) {
+        is_hot = true;
+        break;
+    }
+}
