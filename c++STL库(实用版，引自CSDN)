@@ -1,0 +1,312 @@
+#include<vector>
+	int n;
+	cin >> n;
+	vector<int> vv(n);//开辟 n 个空间，全部初始化为 0
+	
+	vector<int> vec, e[110];//动态添加
+
+	//clear() 清空容器
+	vec.clear();
+	for (int i = 1; i <= n; i++)
+		e[i].clear();//e->clear()是错的！
+
+	for (int i = 1; i <= n; i++) {
+		vec.push_back(3);//末尾放入
+		vec[i] = 2;//修改
+	}
+	vec.pop_back();//末尾删除
+	
+	//insert，插入一个数到容器内某个位置，留给你们自行了解
+
+	//排序
+	sort(vec.begin(), vec.end());
+	for (int i = 1; i <= n; i++)
+		sort(e[i].begin(), e[i].end());
+
+	//查找
+	int t = lower_bound(vec.begin(), vec.end(), 3) - vec.begin();
+	//找到第一个大于等于3的数，返回它在vec容器内的下标，如果不存在会返回vec.end()
+
+	//删除，需要保证指针链接性
+	for (auto it = vec.begin(); it != vec.end();) {
+		if (*it == 4)it = vec.erase(it);//erase函数会返回删除该位的下一位的指针
+		it++;
+	}
+
+	//遍历，常用两种
+	for (int i = 0; i < vec.size(); i++)
+		cout << vec[i] << ' ';
+	cout << endl;
+	for (auto j : vec)cout << j << ' ';
+
+	//输出开头和末尾的数
+	cout << vec.front() << endl;
+	cout << vec.back();
+
+
+
+#include<string>
+string a, b;
+	a.clear(), b.clear();//清空
+	cin >> a >> b;//输入
+
+	a.push_back('b');//最末尾添加一个字符
+	a.pop_back();//删除最末尾一个字符
+
+	a += b;//b字符串接到a后部，无 a -= b 语法
+
+	//遍历
+	for (int i = 0; i < a.size(); i++) {
+		cout << a[i] << ' ';//输出每个位置字符
+		a[i] = 'b';//修改
+	}
+
+	//find，找到第一个 x 字符的下标
+	int t = a.find('a');
+
+	//substr，取子串函数
+	string g = a.substr(0, 3);//0 下标开始包括此位置往后取 3 个字符
+	g = a.substr(3, 3);
+	g = a.substr(3);//3下标开始取到结束
+
+
+#include<iostream>
+	//一个变量携带两个值
+	pair<int, int> pii;
+
+	cin >> pii.first >> pii.second;
+	
+	cout << pii.first << ' ' << pii.second;
+
+	//通常作为工具与其他容器结合使用
+
+
+
+#include<algorithm>
+int a[] = { 1,2,3 };//初始的序列，长什么样都行，无序、有重复元素也行
+	do
+	{ 
+		//每次输出比它本身字典序 大 一点的新排序
+		//（比它字典序大的所有排序中字典序最小的一个）
+		for (int i = 0; i < 3; i++)
+			cout << a[i];
+
+		cout << endl;
+	} while (next_permutation(a, a + 3));//这个数组的范围内
+
+	cout << "分割——————————————————————————\n";
+
+	//处理完后数组恢复原样
+	for (int i = 0; i < 3; i++)
+		cout << a[i];
+	cout << endl << endl;
+	reverse(a, a + 3);
+	for (int i = 0; i < 3; i++)
+		cout << a[i];
+	cout << endl;
+
+	cout << "分割——————————————————————————\n";
+
+	do
+	{
+		//每次输出比它本身字典序 小 一点的新排序
+		//（比它字典序小的所有排序中字典序最大的一个）
+		for (int i = 0; i < 3; i++)
+			cout << a[i];
+
+		cout << endl;
+
+	} while (prev_permutation(a, a + 3));
+
+
+
+#include<algorithm>
+	//找大于等于某数的第一个数，查找的数组必须有序
+
+	int n = 7;//7个数
+	int a[] = { 2,4,6,7,9,12,111 };//范围：0 ~ 6
+	
+	int t = lower_bound(a, a + n, 8) - a;//数组中大于等于8的第一个数
+
+	if (t != n)//找不到会返回边界，边界是 7
+		cout << a[t] << endl;
+
+	int b[] = { 0,2,4,6,7,9,12,111 };//范围：1 ~ 7
+	t = lower_bound(b + 1, b + n + 1, 8) - b;
+
+	if (t != n + 1)//找不到会返回边界，边界是 8
+		cout << b[t] << endl;
+
+
+
+#include<algorithm>
+	vector<int> vec = { 1,3,4,5,1,1,9 };
+	sort(vec.begin(), vec.end());
+	
+	//unique本身的功能是将排序后的数组内的所有重复元素在 O(n) 时间内堆积到数组末端
+	//同时它会返回一个指针/下标（区别于你传入的是容器还是数组） —— 堆积的第一个重复元素的位置
+	
+	vec.erase(unique(vec.begin(), vec.end()), vec.end());
+	//我们再利用vector的区间删除功能就能完成去重的过程
+
+	for (auto j : vec)cout << j << ' ';
+
+	int a[10] = { 1,2,3,8,7,5,3,1,2,4 };
+	int n = 10;
+	sort(a, a + n);//排序
+	
+	forr(i, 0, n - 1)cout << a[i] << ' ';
+	cout << endl;
+
+	n = unique(a, a + n) - a;
+	//n 之后的元素似乎会有变动，但不影响去重本身的正确性
+
+	forr(i, 0, n - 1)cout << a[i] << ' ';
+
+
+
+#include<stack>
+stack<int> sta;
+
+	for (int i = 0; i < n; i++)
+		sta.push(3);//插入
+
+	//遍历 + 删除
+	while (sta.size())
+	{
+		int t = sta.top();
+		cout << t << ' ';
+		sta.pop();
+	}
+
+
+
+#include<queue>
+queue<int> q;
+
+	for (int i = 0; i < n; i++)
+		q.push(3);
+
+	while (q.size())
+	{
+		int t = q.front();
+		q.pop();
+		cout << t << ' ';
+	}
+
+
+
+deque<int> q;
+
+	for (int i = 0; i < n; i++) {
+		q.push_back(3);//放尾部
+		q.push_front(2);//放前部
+	}
+		
+	while (q.size())
+	{
+		int t = q.front(), g = q.back();
+		q.pop_back();//删后部
+		q.pop_front();//删前部
+		cout << t << ' ';
+	}
+
+//自动排序内部数，小到大或大到小
+
+	priority_queue<int, vector<int>, greater<int>> q1; 
+	//greater是小根堆，用vector装载内部元素
+	priority_queue<int, vector<int>, less<int>> q2; 
+	//less是大根堆
+
+	q1.push(3), q2.push(2);
+
+	while (q1.size())
+	{
+		int t = q1.top();//小根堆所以取出的数是所有数内最小的
+		q1.pop();
+		cout << t << ' ';
+	}
+
+
+
+#include<set>
+#include<map>
+//红黑树结构，可以自动排序去重
+	set<int> se;
+
+	//关键字 关键值
+	map<int, int> mp;//map相当于拥有了关键值的set
+
+
+	//插入
+
+	se.insert(3);//插入一个 3 关键字
+
+	mp.insert({ 1,2 });//插入一个 1 关键字，并给这个关键字的关键值赋值 2
+	mp.insert({ 1,1 });//因为 1 关键字已经存在，所以把关键值修改成 1
+
+	// mp.insert({ 1,2 }) 等价于
+	mp[1] = 2;
+
+	mp[1] += 2;//1 关键字的关键值 + 2
+
+
+	//遍历
+
+	for (auto j : se)cout << j << endl;
+
+	for (auto j : mp)
+		cout << j.first << ' ' << j.second << endl;//两个值
+
+	for (auto it = mp.begin(); it != mp.end(); it++)
+		cout << (*it).first << ' ' << (*it).second << endl;
+	//无括号会报错
+
+	for (auto it = se.rbegin(); it != se.rend(); it++)//反向遍历
+		cout << *it << endl;
+
+
+	//删除
+	
+	mp.erase(3); se.erase(3);//删除关键字为 3 的元素
+
+	//如果是遍历删除 map 内特定的第 K 个数，跟 vector 删除一样要注意指针衔接
+	int k = 0;
+	for (auto it = mp.begin(); it != mp.end();k++) {
+		if (k == K)it = mp.erase(it);
+		else it++;
+	}
+
+	int t = mp.count(3);//返回指定元素出现的次数
+	t = mp.size();//返回map中元素的个数
+
+	//查找
+
+	auto j = mp.find(3);//查找 3 关键字在 map 内的下标
+	//如果不存在则 j == mp.end()
+	if (j != mp.end())cout << (*j).first;
+
+	auto g = mp.lower_bound(3);//查找 map 内第一个大于等于 3 的数的下标
+	//如果不存在则 g == mp.end()
+	if (g != mp.end())cout << (*g).first;
+
+
+
+#include<unordered_set>
+#include<unordered_map>
+	unordered_map<int, int> ump;
+	unordered_set<int> ums;
+
+	//无自动排序，有去重，支持 O(1) 时间查找元素是否存在；map、set为 O(logn)
+
+	for (int i = 0; i < n; i++) {
+		ump.insert({ 1,2 });
+		ump[1] = 2;
+		ums.insert(3);
+	}
+
+	for (auto j : ump)cout << j.first << endl;
+	for (auto j : ums)cout << j << endl;
+
+	bool t = ump.count(3), g = ums.count(1);
+	//查找元素是否存在，存在就返回true，否则false
