@@ -10,3 +10,37 @@ vector<int> num;
   for (int i = 0; i < n; i++) {
       cin >> num[i];  // 直接赋值
   }
+
+#include <vector>
+#include <chrono>
+#include <iostream>
+
+int main() {
+    const int N = 10'000'000;
+
+    // 不加 reserve
+    auto start1 = std::chrono::high_resolution_clock::now();
+    std::vector<int> v1;
+    for (int i = 0; i < N; i++) {
+        v1.push_back(i);
+    }
+    auto end1 = std::chrono::high_resolution_clock::now();
+    auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(end1 - start1).count();
+    std::cout << "Without reserve: " << duration1 << " ms\n";
+
+    // 加 reserve
+    auto start2 = std::chrono::high_resolution_clock::now();
+    std::vector<int> v2;
+    v2.reserve(N);
+    for (int i = 0; i < N; i++) {
+        v2.push_back(i);
+    }
+    auto end2 = std::chrono::high_resolution_clock::now();
+    auto duration2 = std::chrono::duration_cast<std::chrono::milliseconds>(end2 - start2).count();
+    std::cout << "With reserve: " << duration2 << " ms\n";
+
+    return 0;
+}
+
+Without reserve: 120 ms  
+With reserve: 50 ms  
