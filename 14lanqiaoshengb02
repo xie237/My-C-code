@@ -14,7 +14,7 @@ int main(){
     return 0;
 }
 
-
+输出0(wrong)二分
 #include <iostream>
 #include <cmath>
 using namespace std;
@@ -46,5 +46,33 @@ int main() {
         }
     }
     cout << ans << endl;
+    return 0;
+}
+
+对的
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double compute_sum(double o, double n) {
+    if (o == 0 || o == n) return 0;
+    double p = o / n;
+    double q = (n - o) / n;
+    return -(o * p * log2(p) + (n - o) * q * log2(q));
+}
+
+int main() {
+    double n = 23333333;
+    double target = 11625907.5798;
+    double epsilon = 1e-2;  // 放宽精度
+
+    for (int o = 1; o <= n / 2; o++) {
+        double sum = compute_sum(o, n);
+        if (abs(sum - target) < epsilon) {
+            cout << o << endl;
+            return 0;
+        }
+    }
+    cout << "Not found" << endl;
     return 0;
 }
