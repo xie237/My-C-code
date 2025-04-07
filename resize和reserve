@@ -1,0 +1,12 @@
+vector<int> num;
+  num.reserve(n);  // 只分配空间，size() 仍然是 0
+  for (int i = 0; i < n; i++) {
+      int x;
+      cin >> x;
+      num.push_back(x);  // 不会触发重新分配
+  }
+vector<int> num;
+  num.resize(n);  // size() = n，所有元素初始化为 0
+  for (int i = 0; i < n; i++) {
+      cin >> num[i];  // 直接赋值
+  }
