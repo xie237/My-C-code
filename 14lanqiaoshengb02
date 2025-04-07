@@ -13,3 +13,38 @@ int main(){
     }
     return 0;
 }
+
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+double compute_sum(double o, double n) {
+    if (o == 0 || o == n) return 0;  // 避免 log(0)
+    double term1 = (o * o / n) * log2(o / n);
+    double term2 = ((n - o) * (n - o) / n) * log2((n - o) / n);
+    return -(term1 + term2);
+}
+
+int main() {
+    double n = 23333333;
+    double target = 11625907.5798;
+    double epsilon = 1e-6;
+
+    int low = 1, high = n / 2, ans = 0;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        double sum = compute_sum(mid, n);
+
+        if (abs(sum - target) < epsilon) {
+            ans = mid;
+            break;
+        } else if (sum < target) {
+            low = mid + 1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    cout << ans << endl;
+    return 0;
+}
