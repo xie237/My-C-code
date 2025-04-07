@@ -44,3 +44,18 @@ int main() {
 
 Without reserve: 120 ms  
 With reserve: 50 ms  
+
+
+#include <chrono>
+#include <iostream>
+
+int main() {
+    auto start = std::chrono::high_resolution_clock::now(); // 记录开始时间点
+    // ... 要测试的代码 ...
+    auto end = std::chrono::high_resolution_clock::now();    // 记录结束时间点
+    
+    // 计算时间差（转换为毫秒）
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+    std::cout << "耗时: " << duration << " 毫秒\n";
+    return 0;
+}
