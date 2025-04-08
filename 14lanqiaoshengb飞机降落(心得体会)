@@ -1,0 +1,107 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+struct Plane {
+    int t, d, l;
+};
+
+bool canLand(const vector<Plane>& planes, const vector<int>& order) {
+    int current_time = 0;
+    for (int idx : order) {
+        const Plane& p = planes[idx];
+        int earliest = p.t;
+        int latest = p.t + p.d;
+        int start_time = max(current_time, earliest);
+        if (start_time > latest) {
+            return false;
+        }
+        current_time = start_time + p.l;
+    }
+    return true;
+}
+
+int main() {
+    int m;
+    cin >> m;
+    vector<bool> results(m);
+    for (int i = 0; i < m; ++i) {
+        int n;
+        cin >> n;
+        vector<Plane> planes(n);
+        for (int j = 0; j < n; ++j) {
+            cin >> planes[j].t >> planes[j].d >> planes[j].l;
+        }
+        vector<int> order(n);
+        for (int j = 0; j < n; ++j) {
+            order[j] = j;
+        }
+        bool possible = false;
+        do {
+            if (canLand(planes, order)) {
+                possible = true;
+                break;
+            }
+        } while (next_permutation(order.begin(), order.end()));
+        results[i] = possible;
+    }
+    for (bool res : results) {
+        cout << (res ? "YES" : "NO") << endl;
+    }
+    return 0;
+}
+
+
+//以上为deepseek修改后，今天发现一种不修改原数组对数组进行排序的方法，可以将其下标组成为一个数组，用sort中迭代器或地址结束后加函数compare进行比较，将其按照对应数组数字大小进行坐标排序，以便后期对其进行访问
+//感觉蓝桥杯中等编程题，可以将自己的思维写下来，再将思维转化为代码
+//下面是一个失败案例#include <iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+vector<int>t;  vector<int>d;  vector<int>l;
+bool compare(int n,int m)
+{
+	return t[n]==t[m]?l[n]<l[m]:t[n]<t[m];
+}
+int main()
+{
+  int m;
+  int n;
+  cin>>m;
+  vector<bool>tf(m);
+  for(int i=0;i<m;i++)
+  {
+    cin>>n;
+    t.clear();d.clear();l.clear();
+    t.reserve(n);d.reserve(n);l.reserve(n);
+    for(int j=0;j<n;j++)
+    {
+      int a,b,c;
+      cin>>a>>b>>c;
+      t.push_back(a);d.push_back(b);l.push_back(c);
+    }
+    vector<int>index(n);
+    for(int q=0;q<n;q++)
+    {
+    	index[q]=q;
+	}
+	sort(index.begin(),index.end(),compare);
+	int time;
+	for(int h=0;h<n;h++)
+	{
+		time=t[index[h]]+l[index[h]];
+		if(h!=0&&t[index[h-1]]+d[index[h-1]]==time) time+=d[index[h-1]];
+		if(n-h>1&&t[index[h+1]]+d[index[h+1]]<time) {
+		tf[m]=false;
+		break;}
+		else if(h==n-1) tf[m]=true;
+	}
+  }
+  for(int l=0;l<m;l++)
+  {
+  	if(tf[m]) cout<<"YES";
+  	else cout<<"NO";
+  	cout<<endl;
+  }
+  return 0;
