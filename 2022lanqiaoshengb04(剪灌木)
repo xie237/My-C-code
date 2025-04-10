@@ -1,0 +1,12 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    int N;
+    cin >> N;
+    for (int i = 1; i <= N; ++i) {
+        int max_dist = max(i - 1, N - i);
+        cout << max_dist * 2 << endl;
+    }
+    return 0;
+}
