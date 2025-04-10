@@ -96,3 +96,72 @@ int main() {
     cout << sunk_islands << endl;
     return 0;
 }
+
+
+
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int N;
+vector<vector<bool>> original;  // 原始地图，true表示陆地
+vector<vector<bool>> visited;   // 访问标记
+
+// 检查当前陆地是否不会被淹没（周围全是陆地）
+bool is_survivor(int i, int j) {
+    return original[i-1][j] && original[i+1][j] &&
+           original[i][j-1] && original[i][j+1];
+}
+
+// 递归DFS遍历岛屿，并检查是否存在存活陆地
+void dfs(int i, int j, bool &has_survivor) {
+    if (i < 1 || i > N || j < 1 || j > N) return;  // 边界检查
+    if (!original[i][j] || visited[i][j]) return;   // 非陆地或已访问
+    
+    visited[i][j] = true;  // 标记为已访问
+    
+    // 检查当前陆地是否不会被淹没
+    if (is_survivor(i, j)) {
+        has_survivor = true;
+    }
+    
+    // 递归遍历四个方向
+    dfs(i-1, j, has_survivor);
+    dfs(i+1, j, has_survivor);
+    dfs(i, j-1, has_survivor);
+    dfs(i, j+1, has_survivor);
+}
+
+int main() {
+    cin >> N;
+    original.assign(N + 2, vector<bool>(N + 2, false));  // 外围自动填充海洋
+    visited.assign(N + 2, vector<bool>(N + 2, false));
+    
+    // 读取输入并初始化原始地图
+    for (int i = 1; i <= N; ++i) {
+        string row;
+        cin >> row;
+        for (int j = 1; j <= N; ++j) {
+            original[i][j] = (row[j-1] == '#');
+        }
+    }
+    
+    int sunk_islands = 0;
+    
+    // 遍历每个点，寻找未被访问的岛屿
+    for (int i = 1; i <= N; ++i) {
+        for (int j = 1; j <= N; ++j) {
+            if (original[i][j] && !visited[i][j]) {
+                bool has_survivor = false;
+                dfs(i, j, has_survivor);
+                if (!has_survivor) {
+                    sunk_islands++;  // 无存活陆地，岛屿被淹没
+                }
+            }
+        }
+    }
+    
+    cout << sunk_islands << endl;
+    return 0;
+}
