@@ -1,0 +1,98 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <utility>
+using namespace std;
+
+int N;
+vector<vector<bool> > original;
+vector<vector<bool> > future;
+
+void simulate_flood() {
+    future = original;
+    for (int i = 1; i <= N; ++i) {
+        for (int j = 1; j <= N; ++j) {
+            if (original[i][j]) {
+                bool has_ocean = false;
+                if (!original[i-1][j] || !original[i+1][j] || 
+                    !original[i][j-1] || !original[i][j+1]) {
+                    has_ocean = true;
+                }
+                if (has_ocean) {
+                    future[i][j] = false;
+                }
+            }
+        }
+    }
+}
+
+void bfs(int i, int j, vector<vector<bool> >& grid, 
+        vector<vector<bool> >& visited, vector<pair<int, int> >& lands) {
+    queue<pair<int, int> > q;
+    q.push(make_pair(i, j));
+    visited[i][j] = true;
+    lands.push_back(make_pair(i, j));
+    
+    int dirs[4][2] = {{-1,0}, {1,0}, {0,-1}, {0,1}};
+    while (!q.empty()) {
+        pair<int, int> curr = q.front();
+        q.pop();
+        int x = curr.first;
+        int y = curr.second;
+        
+        for (int d = 0; d < 4; ++d) {
+            int nx = x + dirs[d][0];
+            int ny = y + dirs[d][1];
+            if (nx >= 1 && nx <= N && ny >= 1 && ny <= N) {
+                if (grid[nx][ny] && !visited[nx][ny]) {
+                    visited[nx][ny] = true;
+                    q.push(make_pair(nx, ny));
+                    lands.push_back(make_pair(nx, ny));
+                }
+            }
+        }
+    }
+}
+
+int main() {
+    cin >> N;
+    original.assign(N+2, vector<bool>(N+2, false));
+    
+    for (int i = 1; i <= N; ++i) {
+        string row;
+        cin >> row;
+        for (int j = 1; j <= N; ++j) {
+            original[i][j] = (row[j-1] == '#');
+        }
+    }
+    
+    simulate_flood();
+    
+    vector<vector<bool> > visited_original(N+2, vector<bool>(N+2, false));
+    int sunk_islands = 0;
+    
+    for (int i = 1; i <= N; ++i) {
+        for (int j = 1; j <= N; ++j) {
+            if (original[i][j] && !visited_original[i][j]) {
+                vector<pair<int, int> > lands;
+                bfs(i, j, original, visited_original, lands);
+                
+                bool is_sunk = true;
+                for (size_t k = 0; k < lands.size(); ++k) {
+                    int x = lands[k].first;
+                    int y = lands[k].second;
+                    if (future[x][y]) {
+                        is_sunk = false;
+                        break;
+                    }
+                }
+                if (is_sunk) {
+                    sunk_islands++;
+                }
+            }
+        }
+    }
+    
+    cout << sunk_islands << endl;
+    return 0;
+}
