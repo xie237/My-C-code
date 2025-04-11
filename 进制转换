@@ -1,0 +1,41 @@
+// 十进制转二进制（返回逆序字符串）
+string decToBin(int n) {
+    string s;
+    while(n) {
+        s += (n % 2) + '0';
+        n /= 2;
+    }
+    reverse(s.begin(), s.end());
+    return s;
+}
+
+// 其他进制转十进制（按权展开）
+int binToDec(string s) {
+    int num = 0;
+    for(char c : s) {
+        num = num * 2 + (c - '0');
+    }
+    return num;
+}
+
+// 字符串转十进制（支持2-36进制）
+int stoi(string s, int base=10); // 例：stoi("1010", 2) → 10
+
+// 十进制转字符串
+to_string(15); // 十进制转"15"
+
+bitset<32> b(15);  // 创建32位二进制对象
+cout << b.to_string();  // 输出"00000000000000000000000000001111"
+
+cout << hex << 255;   // 输出十六进制"ff"
+cout << oct << 10;    // 输出八进制"12"
+cout << dec;          // 恢复十进制输出
+
+bool isPalindrome(int x) {
+    if(x < 0) return false;
+    string s = to_string(x);
+    return s == string(s.rbegin(), s.rend());
+}
+
+string hex = "1A";
+int dec = stoi(hex, nullptr, 16);  // 输出26
