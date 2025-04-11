@@ -77,7 +77,7 @@ string a, b;
 	cin >> pii.first >> pii.second;
 	
 	cout << pii.first << ' ' << pii.second;
-
+//不能用pair->first和pair->second
 	//通常作为工具与其他容器结合使用
 
 
