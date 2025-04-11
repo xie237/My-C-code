@@ -1,0 +1,27 @@
+#include <cmath>
+// 绝对值
+int abs(int x);         // 整数绝对值
+double fabs(double x);  // 浮点数绝对值
+
+// 平方根和幂
+double sqrt(double x);      // 平方根（x≥0）
+double pow(double a, double b); // a的b次方
+
+// 三角函数（参数为弧度）
+double sin(double x);    // 正弦
+double cos(double x);    // 余弦
+double tan(double x);    // 正切
+
+// 指数和对数
+double exp(double x);    // e^x
+double log(double x);    // 自然对数（x>0）
+double log10(double x);  // 以10为底的对数
+
+// 取整函数
+double ceil(double x);   // 向上取整
+double floor(double x);  // 向下取整
+double round(double x);  // 四舍五入
+
+//    比较浮点数相等：fabs(a - b) < 1e-9（避免直接==）
+
+    最大值/最小值：max(a, b) 和 min(a, b)（C++11需#include <algorithm>）
