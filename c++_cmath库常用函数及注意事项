@@ -16,6 +16,15 @@ double tan(double x);    // 正切
 double exp(double x);    // e^x
 double log(double x);    // 自然对数（x>0）
 double log10(double x);  // 以10为底的对数
+#include <iostream>
+#include <cmath>  // 包含 log2 函数
+
+int main() {
+    double x = 8.0;
+    double result = std::log2(x);  // 计算 log2(8) = 3
+    std::cout << "log2(" << x << ") = " << result << std::endl;
+    return 0;
+}
 
 // 取整函数
 double ceil(double x);   // 向上取整
