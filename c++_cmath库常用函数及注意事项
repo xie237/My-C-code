@@ -25,7 +25,9 @@ int main() {
     std::cout << "log2(" << x << ") = " << result << std::endl;
     return 0;
 }
-
+double log2(double x) {
+      return std::log(x) / std::log(2.0);
+  }
 // 取整函数
 double ceil(double x);   // 向上取整
 double floor(double x);  // 向下取整
