@@ -1,0 +1,31 @@
+#include<iostream>
+#include<cmath>
+using namespace std;
+char C;
+string S;
+int A, B;
+void Work(int Lim)
+{
+	for (char i : S)
+	{
+		if (i == 'W')A++;
+		if (i == 'L')B++;
+		if (max(A, B) >= Lim && abs(A - B) >= 2)
+		{
+			cout << A << ":" << B << endl;
+			A = 0, B = 0;
+		}
+	}
+	cout << A << ":" << B << endl<<endl;
+	A = B = 0;
+}
+int main()
+{
+	while (cin >> C)
+	{
+		if (C == 'E')break;
+		S += C;
+	}
+	Work(11), Work(21);
+	return 0;
+}
