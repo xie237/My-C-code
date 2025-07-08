@@ -1,0 +1,35 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n, m;
+    cin >> n >> m;
+    vector<vector<char>>matrix(n + 2, vector<char>(m + 2));
+    vector<vector<char>>num(n + 2, vector<char>(m + 2, '0'));
+    for (int i = 1;i <= n;i++)
+        for (int j = 1;j <= m;j++)
+        {
+            cin >> matrix[i][j];
+            if(matrix[i][j] == '*'){
+                num[i][j] = '*';
+                if(num[i-1][j]!='*')num[i - 1][j]++;
+                if(num[i+1][j]!='*')num[i + 1][j]++;
+                if(num[i][j-1]!='*')num[i][j - 1]++;
+                if(num[i][j + 1]!='*')num[i][j + 1]++;
+                if(num[i - 1][j - 1]!='*')num[i - 1][j - 1]++;
+                if(num[i + 1][j + 1])num[i + 1][j + 1]++;
+                if(num[i - 1][j + 1]!='*')num[i - 1][j + 1]++;
+                if(num[i + 1][j - 1]!='*')num[i + 1][j - 1]++;
+            }
+        }
+    for (int i = 1;i <= n;i++)
+    {
+        for (int j = 1;j <= m;j++)
+        {
+            cout << num[i][j];
+        }
+        cout << endl;
+    }
+    return 0;
+}
