@@ -1,0 +1,37 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n, m;
+    cin >> n >> m;
+    vector<int> inout(n); // 0圈内,1圈外
+    vector<string> profession(n);
+    int peoplenum = n; // 直接使用n，无需额外计数
+    for (int i = 0; i < n; i++)
+    {
+        cin >> inout[i] >> profession[i];
+    }
+    vector<int> zuoyou(m); // 0左,1右
+    vector<int> zhiling(m);
+    int num = 1; // 当前位置（1-based）
+    for (int i = 0; i < m; i++)
+    {
+        cin >> zuoyou[i] >> zhiling[i];
+        if ((zuoyou[i] && inout[num - 1]) || (!zuoyou[i] && !inout[num - 1]))
+            num -= zhiling[i];
+        else
+            num += zhiling[i];
+        
+        // 边界调整：确保num在[1, peoplenum]范围内
+        if (num <= 0) {
+            num += peoplenum; // 处理<=0的情况
+        }
+        if (num > peoplenum) {
+            num %= peoplenum;
+            if (num == 0) num = peoplenum; // 取模后为0时调整为peoplenum
+        }
+    }
+    cout << profession[num - 1]; // 输出时转换为0-based索引
+    return 0;
+}
