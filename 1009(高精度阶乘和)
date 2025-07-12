@@ -1,0 +1,83 @@
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+#include<vector>
+#include<sstream>
+using namespace std;
+
+// 高精度乘法
+string multiply(const string& a, const string& b) {
+    if (a == "0" || b == "0") return "0";
+    
+    int len1 = a.size();
+    int len2 = b.size();
+    vector<int> res(len1 + len2, 0);  // 结果数组
+    
+    // 从低位到高位计算
+    for (int i = len1 - 1; i >= 0; i--) {
+        for (int j = len2 - 1; j >= 0; j--) {
+            int mul = (a[i] - '0') * (b[j] - '0');
+            int sum = mul + res[i + j + 1];  // 加上该位置原有值
+            
+            res[i + j + 1] = sum % 10;      // 当前位
+            res[i + j] += sum / 10;          // 进位
+        }
+    }
+    
+    // 处理剩余进位
+    for (int i = res.size() - 1; i > 0; i--) {
+        if (res[i] >= 10) {
+            res[i - 1] += res[i] / 10;
+            res[i] %= 10;
+        }
+    }
+    
+    // 转换为字符串
+    string result;
+    bool leadingZero = true;
+    for (int num : res) {
+        if (num != 0) leadingZero = false;
+        if (!leadingZero) result.push_back(num + '0');
+    }
+    
+    return result.empty() ? "0" : result;
+}
+
+// 高精度加法
+string add(string a, string b) {
+    if (a == "0") return b;
+    if (b == "0") return a;
+    
+    string res;
+    int i = a.size() - 1, j = b.size() - 1;
+    int carry = 0;
+    
+    while (i >= 0 || j >= 0 || carry) {
+        int sum = carry;
+        if (i >= 0) sum += a[i--] - '0';
+        if (j >= 0) sum += b[j--] - '0';
+        carry = sum / 10;
+        res.push_back('0' + (sum % 10));
+    }
+    
+    reverse(res.begin(), res.end());
+    return res;
+}
+
+int main() {
+    int n;
+    cin >> n;
+    
+    string total = "0";  // 总和
+    string fact = "1";   // 当前阶乘值
+    
+    for (int i = 1; i <= n; i++) {
+        // 计算当前阶乘 fact = fact * i
+        fact = multiply(fact, to_string(i));
+        // 累加到总和
+        total = add(total, fact);
+    }
+    
+    cout << total;
+    return 0;
+}
