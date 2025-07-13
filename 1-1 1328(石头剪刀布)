@@ -1,0 +1,43 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int work(const int &a, const int &b) {
+    // 定义5x5胜负表：-1平局，1表示a赢，0表示b赢
+    static const int result[5][5] = {
+        {-1, 0, 1, 1, 0}, // 剪刀(0) vs [剪刀,石头,布,蜥蜴人,斯波克]
+        {1, -1, 0, 1, 0}, // 石头(1)
+        {0, 1, -1, 0, 1}, // 布(2)
+        {0, 0, 1, -1, 1}, // 蜥蜴人(3)
+        {1, 1, 0, 0, -1}  // 斯波克(4)
+    };
+    return result[a][b];
+}
+
+int main() {
+    int n, na, nb;
+    cin >> n >> na >> nb;
+    vector<int> xa(na);
+    vector<int> xb(nb);
+    
+    for (int i = 0; i < na; i++) cin >> xa[i];
+    for (int i = 0; i < nb; i++) cin >> xb[i];
+    
+    int aa = 0, bb = 0;
+    int awin = 0, bwin = 0;
+    
+    for (int i = 0; i < n; i++) {
+        int a_move = xa[aa % na];
+        int b_move = xb[bb % nb];
+        int res = work(a_move, b_move);
+        
+        if (res == 1) awin++;
+        else if (res == 0) bwin++;
+        
+        aa++;
+        bb++;
+    }
+    
+    cout << awin << " " << bwin;
+    return 0;
+}
