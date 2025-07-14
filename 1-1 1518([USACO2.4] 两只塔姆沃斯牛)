@@ -1,0 +1,71 @@
+#include <iostream>
+#include <vector>
+#include <cstring>
+using namespace std;
+
+int main() {
+    vector<vector<char>> grid(12, vector<char>(12, '*'));
+    int fx, fy, cx, cy;
+    fx = fy = cx = cy = 0;
+
+    for (int i = 1; i <= 10; i++) {
+        string s;
+        cin >> s;
+        for (int j = 1; j <= 10; j++) {
+            grid[i][j] = s[j-1];
+            if (grid[i][j] == 'F') {
+                fx = i; fy = j;
+            } else if (grid[i][j] == 'C') {
+                cx = i; cy = j;
+            }
+        }
+    }
+
+    int fdir = 0, cdir = 0;
+    int time = 0;
+
+    static bool visited[11][11][4][11][11][4];
+    memset(visited, false, sizeof(visited));
+
+    while (true) {
+        if (visited[fx][fy][fdir][cx][cy][cdir]) {
+            cout << 0 << endl;
+            return 0;
+        }
+        visited[fx][fy][fdir][cx][cy][cdir] = true;
+
+        int nfx = fx, nfy = fy;
+        if (fdir == 0) nfx--;
+        else if (fdir == 1) nfy++;
+        else if (fdir == 2) nfx++;
+        else if (fdir == 3) nfy--;
+
+        if (grid[nfx][nfy] == '*') {
+            fdir = (fdir + 1) % 4;
+        } else {
+            fx = nfx;
+            fy = nfy;
+        }
+
+        int ncx = cx, ncy = cy;
+        if (cdir == 0) ncx--;
+        else if (cdir == 1) ncy++;
+        else if (cdir == 2) ncx++;
+        else if (cdir == 3) ncy--;
+
+        if (grid[ncx][ncy] == '*') {
+            cdir = (cdir + 1) % 4;
+        } else {
+            cx = ncx;
+            cy = ncy;
+        }
+
+        time++;
+
+        if (fx == cx && fy == cy) {
+            cout << time << endl;
+            return 0;
+        }
+    }
+    return 0;
+}
