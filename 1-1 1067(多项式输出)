@@ -1,0 +1,41 @@
+#include<iostream>
+#include<vector>
+#include<cstdlib>
+using namespace std;
+int main() {
+    int n;
+    cin >> n;
+    vector<int> num(n + 1);
+    for (int i = 0; i <= n; i++) {
+        cin >> num[i];
+    }
+    bool first = true;
+    for (int i = 0; i <= n; i++) {
+        int coeff = num[i];
+        int power = n - i;
+
+        if (coeff == 0) continue;
+        // 处理符号
+        if (first) {
+            if (coeff < 0) cout << "-";
+            first = false;
+        }
+        else {
+            if (coeff > 0) cout << "+";
+            else cout << "-";
+        }
+        // 处理系数绝对值
+        int abs_coeff = abs(coeff);
+        if (abs_coeff != 1 || power == 0) {
+            cout << abs_coeff;
+        }
+        // 处理变量部分
+        if (power > 1) {
+            cout << "x^" << power;
+        }
+        else if (power == 1) {
+            cout << "x";
+        }
+    }
+    return 0;
+}
