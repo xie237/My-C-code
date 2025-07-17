@@ -1,0 +1,20 @@
+#include<iostream>
+#include<algorithm>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    vector<int>piao(m);
+    for(int i=0;i<m;i++)
+    {
+        cin>>piao[i];
+    }
+    sort(piao.begin(),piao.end());
+    for(int i=0;i<m;i++)
+    {
+        cout<<piao[i]<<" ";
+    }
+    return 0;
+}
