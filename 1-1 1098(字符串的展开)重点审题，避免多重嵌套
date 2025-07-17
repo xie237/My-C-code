@@ -1,0 +1,72 @@
+#include<iostream>
+using namespace std;
+
+int getCharType(char ch) {
+    if (ch >= 'a' && ch <= 'z') return 0;
+    else if (ch >= '0' && ch <= '9') return -1;
+    return -2;
+}
+
+int main() {
+    int p1, p2, p3;
+    cin >> p1 >> p2 >> p3;
+    string str;
+    cin >> str;
+    string result;
+
+    for (int i = 0; i < str.size(); i++) {
+        if (str[i] != '-') {
+            result.push_back(str[i]);
+            continue;
+        }
+
+        // 处理开头/结尾的减号
+        if (i == 0 || i == str.size() - 1) {
+            result.push_back('-');
+            continue;
+        }
+
+        char left = str[i - 1];
+        char right = str[i + 1];
+
+        // 检查是否保留减号的情况
+        if (left >= right || 
+            getCharType(left) != getCharType(right) || 
+            getCharType(left) == -2) { // 类型不同或无效类型
+            result.push_back('-');
+            continue;
+        }
+
+        // 处理连续字符（如"d-e"）
+        if (left + 1 == right) {
+            continue; // 跳过减号
+        }
+
+        // 确定展开方向
+        bool reverseOrder = (p3 == 2);
+        int start = reverseOrder ? right - 1 : left + 1;
+        int end = reverseOrder ? left : right;
+        int step = reverseOrder ? -1 : 1;
+
+        // 生成展开字符序列
+        for (int ch = start; ch != end; ch += step) {
+            if (p1 == 3) { // 星号填充
+                for (int k = 0; k < p2; k++) {
+                    result.push_back('*');
+                }
+            } else {
+                char currentChar = static_cast<char>(ch);
+                // 字母且需要大写转换
+                if (getCharType(left) == 0 && p1 == 2) {
+                    currentChar = (ch >= 'a' && ch <= 'z') ? ch - 32 : ch;
+                }
+                for (int k = 0; k < p2; k++) {
+                    result.push_back(currentChar);
+                }
+            }
+        }
+    }
+
+    cout << result << endl;
+    return 0;
+}
