@@ -17,7 +17,7 @@ int main()
     cout<<a[k];
     return 0;
 }
-
+//个人认为自己无法在考场进行大规模sort排序底层之类算法书写
 //ios::sync_with_stdio(false)
     当输入数据量极大（如本题的 5,000,000 个数）时，默认的 cin 可能比 scanf 慢 5~10 倍。
 
