@@ -1,0 +1,42 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int n,k;
+    cin>>n>>k;
+    vector<int>a(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i];
+    }
+    sort(a.begin(),a.end());
+    cout<<a[k];
+    return 0;
+}
+
+//ios::sync_with_stdio(false)
+    当输入数据量极大（如本题的 5,000,000 个数）时，默认的 cin 可能比 scanf 慢 5~10 倍。
+
+    关闭同步后，cin 的速度可接近 scanf。
+
+注意事项
+
+    关闭同步后：
+
+        不能混用 cin 和 scanf，否则可能导致输入顺序错乱。
+
+        不能混用 cout 和 printf，同理。
+//cin.tie(0)
+    解除 cin 与 cout 的绑定，进一步加速输入。
+
+    默认情况下，cin 和 cout 是绑定的（tie），即在每次 cin 操作前会强制刷新 cout 缓冲区（保证交互式程序能实时输出）。
+
+为什么需要？
+
+    绑定会导致额外的缓冲区刷新操作，降低输入速度。
+
+    在算法竞赛中，通常是先全部输入再输出，不需要实时刷新，因此可以安全解除绑定。
