@@ -40,3 +40,13 @@ int main()
     绑定会导致额外的缓冲区刷新操作，降低输入速度。
 
     在算法竞赛中，通常是先全部输入再输出，不需要实时刷新，因此可以安全解除绑定。
+
+//    srand(time(0)); 需要的头文件：
+
+        <cstdlib>：提供 rand() 和 srand() 函数
+
+        <ctime>：提供 time() 函数
+
+    输入输出优化 (ios::sync_with_stdio(false); cin.tie(0);) 需要的头文件：
+
+        <iostream>：提供 cin、cout 等标准输入输出对象
