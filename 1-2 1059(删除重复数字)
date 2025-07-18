@@ -1,0 +1,27 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int n;
+    cin>>n;
+    vector<int>a;
+    int j=0;
+    for(int i=0;i<n;i++)
+    {
+        int num;
+        cin>>num;
+        auto it=find(a.begin(),a.end(),num);
+        if(it==a.end()) {a.push_back(num);j++;}
+    }
+    sort(a.begin(),a.end());
+    cout<<a.size()<<endl;
+    for(int i=0;i<a.size();i++)
+    {
+        cout<<a[i]<<" ";
+    }
+    return 0;
+}
