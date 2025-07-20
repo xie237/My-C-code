@@ -1,0 +1,19 @@
+#include<iostream>
+#include<cmath>
+typedef long long ll;
+using namespace std;
+int main()
+{
+    ll n,m;
+    cin>>n>>m;
+    ll ztotal=0,ctotal=0;
+    for(int i=1;i<=min(m,n);i++)
+    {
+        ztotal+=(m-i+1)*(n-i+1);
+    }
+    ctotal=((n+1)*n/2)*((m+1)*m/2);
+    ctotal-=ztotal;
+    cout<<ztotal<<" "<<ctotal;
+    return 0;
+}
+//打蓝桥时做过，那是感觉很难，现在准备百度之星，再做时感觉不是很难，一道普及题
