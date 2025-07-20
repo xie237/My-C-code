@@ -46,3 +46,58 @@ int main()
     return 0;
 }
 //真暴力，太爽了
+
+
+dfs
+#include <iostream>
+#include <vector>
+using namespace std;
+
+vector<vector<int>> solutions; // 存储所有方案
+
+void dfs(int pos, int current_sum, vector<int>& current, int n) {
+    if (pos == 10) {
+        if (current_sum == n) {
+            solutions.push_back(current);
+        }
+        return;
+    }
+    // 剪枝：计算剩余位置的最小和与最大和
+    int min_remaining = 10 - pos;     // 剩余全放1
+    int max_remaining = 3 * (10 - pos); // 剩余全放3
+    if (current_sum + min_remaining > n) return; // 超过n
+    if (current_sum + max_remaining < n) return; // 不足n
+
+    // 尝试当前配料放1、2、3克
+    for (int i = 1; i <= 3; i++) {
+        current[pos] = i;
+        dfs(pos + 1, current_sum + i, current, n);
+    }
+}
+
+int main() {
+    int n;
+    cin >> n;
+    
+    // 检查n是否在有效范围[10,30]内
+    if (n < 10 || n > 30) {
+        cout << 0 << endl;
+        return 0;
+    }
+    
+    vector<int> current(10); // 当前方案数组
+    dfs(0, 0, current, n); // 从第0种配料开始搜索
+    
+    // 输出方案总数
+    cout << solutions.size() << endl;
+    // 按字典序输出所有方案
+    for (auto& sol : solutions) {
+        for (int i = 0; i < 10; i++) {
+            cout << sol[i];
+            if (i < 9) cout << " ";
+        }
+        cout << endl;
+    }
+    
+    return 0;
+}
