@@ -1,0 +1,41 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int a,b,c;
+    cin>>a>>b>>c;
+    int n=10;
+    int b1,b2,b3;
+    bool no=false;
+    for(int i=1;i<=1000/c;i++)
+    {
+        vector<bool>tf(n,false);
+        b1=i*a;
+        b2=i*b;
+        b3=i*c;
+        bool contibool=false;
+        if(b2>999 || b3>999) break;
+        for(int j=1;j<=3;j++)
+        {
+            tf[b1%10]=true;
+            b1/=10;
+        }
+        for(int j=1;j<=3;j++)
+        {
+            tf[b2%10]=true;
+            b2/=10;
+        }
+        for(int j=1;j<=3;j++)
+        {
+            tf[b3%10]=true;
+            b3/=10;
+        }
+        for(int j=1;j<=9;j++) if(tf[j]==false) {contibool=true;break;}
+        if(contibool) continue;
+        cout<<i*a<<" "<<i*b<<" "<<i*c<<endl;
+        no=true;
+    }
+    if(!no) cout<<"No!!!";
+    return 0;
+}
