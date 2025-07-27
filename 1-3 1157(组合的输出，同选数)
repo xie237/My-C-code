@@ -1,0 +1,43 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<iomanip>
+using namespace std;
+void combinerecursive(const vector<int> &x,int k,int start,vector<int> &current,vector<vector<int>> &result)
+{
+    if(current.size()==k)
+    {
+        result.push_back(current);
+        return ;
+    }
+    for(int i=start;i<x.size();i++)
+    {
+        current.push_back(x[i]);
+        combinerecursive(x,k,i+1,current,result);
+        current.pop_back();
+    }
+}
+vector<vector<int>>getcombinations(const vector<int> &x,int k)
+{
+    vector<vector<int>>result;
+    vector<int>current;
+    combinerecursive(x,k,0,current,result);
+    return result;
+}
+int main()
+{
+    int n,k;
+    cin>>n>>k;
+    vector<int>combine;
+    for(int i=1;i<=n;i++) combine.push_back(i);
+    vector<vector<int>>com=getcombinations(combine,k);
+    for(vector<int>n:com)
+    {
+        for(int i:n)
+        {
+            cout<<setw(3)<<i;
+        }
+        cout<<endl;
+    }
+    return 0;
+}
