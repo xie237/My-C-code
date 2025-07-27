@@ -1,0 +1,41 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<iomanip>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int>num;
+    for(int i=1;i<=n;i++) num.push_back(i);
+    do{
+        for(int nn:num)
+           cout<<setw(5)<<nn;
+        cout<<endl;
+    }while(next_permutation(num.begin(),num.end()));
+    return 0;
+}
+
+//deepseek next_permutation实现
+template<typename BidirIt>
+bool next_permutation(BidirIt first, BidirIt last) {
+    if (first == last) return false;
+    BidirIt i = last;
+    if (first == --i) return false;
+    
+    while (true) {
+        BidirIt i1 = i;
+        if (*--i < *i1) {
+            BidirIt i2 = last;
+            while (!(*i < *--i2));
+            std::iter_swap(i, i2);
+            std::reverse(i1, last);
+            return true;
+        }
+        if (i == first) {
+            std::reverse(first, last);
+            return false;
+        }
+    }
+}
