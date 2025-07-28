@@ -1,0 +1,61 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+vector<int>w; vector<int>r; vector<int>b;
+void hangcompare(const vector<char>& h, int index)
+{
+    for (int ch : h)
+    {
+        if (ch == 'W') { r[index]++;b[index]++; }
+        else if (ch == 'R') { w[index]++;b[index]++; }
+        else if (ch == 'B') { w[index]++;r[index]++; }
+    }
+}
+int sum(int start, int end, char ch)
+{
+    if (ch == 'W') {
+        int sum = 0;
+        for (int i = start;i <= end;i++)
+            sum += w[i];
+        return sum;
+    }
+    else if (ch == 'B') {
+        int sum = 0;
+        for (int i = start;i <= end;i++)
+            sum += b[i];
+        return sum;
+    }
+    else if (ch == 'R') {
+        int sum = 0;
+        for (int i = start;i <= end;i++)
+            sum += r[i];
+        return sum;
+    }
+}
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int n, m;
+    cin >> n >> m;
+    w.resize(n, 0); r.resize(n, 0); b.resize(n, 0);
+    vector<vector<char>>matrix(n, vector<char>(m));
+    for (int i = 0;i < n;i++)
+        for (int j = 0;j < m;j++)
+            cin >> matrix[i][j];
+    for (int i = 0; i < n; ++i) {
+        hangcompare(matrix[i], i);
+    }
+    vector<int>chengben;
+    for (int i = 0;i <= n - 3;i++)
+    {
+        for (int j = i + 1; j <= n - 2; j++) {
+            int summ = sum(0, i, 'W') + sum(i + 1, j, 'B') + sum(j + 1, n - 1, 'R');
+            chengben.push_back(summ);
+        }
+    }
+    sort(chengben.begin(), chengben.end());
+    cout << chengben[0];
+    return 0;
+}
