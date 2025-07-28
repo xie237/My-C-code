@@ -1,0 +1,22 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    vector<int>finger(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>finger[i];
+    }
+    vector<vector<int>>matrix;
+    do{
+        matrix.push_back(finger);
+        if(matrix.size()==m+1) break;
+    }while(next_permutation(finger.begin(),finger.end()));
+    for(int num:finger)
+        cout<<num<<" ";
+    return 0;
+}
