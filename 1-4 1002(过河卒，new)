@@ -4,48 +4,47 @@ using namespace std;
 
 vector<vector<bool>> matrix;
 
-void initialize(int max, int may, int n, int m) {
-    // 检查并标记马的控制点，确保不越界
-    auto mark = [&](int x, int y) {
-        if (x >= 0 && x <= n && y >= 0 && y <= m) {
-            matrix[x][y] = true;
-        }
-    };
+// 普通函数代替 lambda
+void mark(int x, int y, int n, int m) {
+    if (x >= 0 && x <= n && y >= 0 && y <= m) {
+        matrix[x][y] = true;
+    }
+}
 
-    mark(max, may);          // 马的位置
-    mark(max + 2, may + 1);  // 控制点1
-    mark(max + 1, may + 2);  // 控制点2
-    mark(max - 1, may + 2);  // 控制点3
-    mark(max - 2, may + 1);  // 控制点4
-    mark(max - 2, may - 1);  // 控制点5
-    mark(max - 1, may - 2);  // 控制点6
-    mark(max + 1, may - 2);  // 控制点7
-    mark(max + 2, may - 1);  // 控制点8
+void initialize(int max, int may, int n, int m) {
+    mark(max, may, n, m);          // 马的位置
+    mark(max + 2, may + 1, n, m);  // 控制点1
+    mark(max + 1, may + 2, n, m);  // 控制点2
+    mark(max - 1, may + 2, n, m);  // 控制点3
+    mark(max - 2, may + 1, n, m);  // 控制点4
+    mark(max - 2, may - 1, n, m);  // 控制点5
+    mark(max - 1, may - 2, n, m);  // 控制点6
+    mark(max + 1, may - 2, n, m);  // 控制点7
+    mark(max + 2, may - 1, n, m);  // 控制点8
 }
 
 int main() {
     int n, m, max, may;
     cin >> n >> m >> max >> may;
 
-    // 调整 matrix 大小，足够容纳所有可能访问
     matrix.resize(n + 1, vector<bool>(m + 1, false));
     vector<vector<int>> way(n + 1, vector<int>(m + 1, 0));
 
-    initialize(max, may, n, m);  // 初始化马的控制点
+    initialize(max, may, n, m);
 
     if (matrix[0][0]) {
         cout << "0";
         return 0;
     }
 
-    way[0][0] = 1;  // 起点
+    way[0][0] = 1;
 
     for (int i = 0; i <= n; i++) {
         for (int j = 0; j <= m; j++) {
-            if (i == 0 && j == 0) continue;  // 起点已初始化
+            if (i == 0 && j == 0) continue;
 
             if (matrix[i][j]) {
-                way[i][j] = 0;  // 被马阻挡
+                way[i][j] = 0;
             } else {
                 if (i > 0) way[i][j] += way[i - 1][j];
                 if (j > 0) way[i][j] += way[i][j - 1];
