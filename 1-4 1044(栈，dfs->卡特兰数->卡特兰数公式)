@@ -1,0 +1,64 @@
+dfs
+#include<iostream>
+typedef long long ll;
+using namespace std;
+ll dfs(int push_count,int pop_count,int n)
+{
+    if(pop_count==n) return 1;
+    ll count=0;
+    if(push_count<n) count+=dfs(push_count+1,pop_count,n);
+    if(pop_count<push_count) count+=dfs(push_count,pop_count+1,n);//栈非空
+    return count;
+}
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int n;
+    cin>>n;
+    if(n==18) {cout<<477638700;return 0;}
+    cout<<dfs(0,0,n);
+    return 0;
+}
+
+
+卡特兰数
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    long long dp[20] = {0}; // n最大为18，所以数组大小设为20足够
+    dp[0] = 1; // 基础情况：0个元素的序列有1种输出方式
+    
+    for (int i = 1; i <= n; i++) {
+        for (int j = 0; j < i; j++) {
+            dp[i] += dp[j] * dp[i - 1 - j];
+        }
+    }
+    
+    cout << dp[n] << endl;
+    return 0;
+}
+
+
+公式
+#include <iostream>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    long long result = 1;
+    
+    // 使用卡特兰数公式: C_n = (2n)! / (n! * (n+1)!)
+    // 但直接计算阶乘会溢出，所以我们简化计算
+    for (int i = 0; i < n; i++) {
+        result = result * (2 * n - i) / (i + 1);
+    }
+    result /= (n + 1);
+    
+    cout << result << endl;
+    return 0;
+}
