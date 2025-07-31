@@ -1,0 +1,35 @@
+#include<iostream>
+#include<vector>
+#include<map>
+#include<tuple>
+typedef long long ll;
+using namespace std;
+vector<ll>result;
+map<tuple<ll, ll, ll>, ll>memo;
+ll w(ll a, ll b, ll c)
+{
+    auto key = make_tuple(a, b, c);
+    if (memo.count(key)) return memo[key];
+    if (a <= 0 || b <= 0 || c <= 0) return 1;
+    else if (a > 20 || b > 20 || c > 20) return memo[key] = w(20, 20, 20);
+    else if (a < b && b < c) return memo[key] = w(a, b, c - 1) + w(a, b - 1, c - 1) - w(a, b - 1, c);
+    else return memo[key] = w(a - 1, b, c) + w(a - 1, b - 1, c) + w(a - 1, b, c - 1) - w(a - 1, b - 1, c - 1);
+}
+    int main()
+    {
+        vector<vector<ll>>n;
+        ll a, b, c;
+        while (cin >> a >> b >> c)
+        {
+            if (a == -1 && b == -1 && c == -1) break;
+            else {
+                vector<ll>num;
+                num.push_back(a); num.push_back(b); num.push_back(c);
+                n.push_back(num);
+                result.push_back(w(a, b, c));
+            }
+        }
+        for (int i = 0;i < result.size();i++)
+            cout << "w(" << n[i][0] << ", " << n[i][1] << ", " << n[i][2] << ")" << " = " << result[i] << endl;
+        return 0;
+    }
