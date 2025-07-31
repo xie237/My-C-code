@@ -1,0 +1,23 @@
+#include<iostream>
+using namespace std;
+string password()
+{
+    int k;//压缩次数
+    char ch;
+    string str,s;//str被压缩字符，s答案
+    s="",str="";
+    while(cin.get(ch))
+    {
+        if(ch=='\n') break;
+        if(ch=='[') {cin>>k;str=password();
+                    while(k--) s+=str;}
+        else if(ch==']') return s;
+        else s+=ch;
+    }
+    return s;
+}
+int main()
+{
+    cout<<password();   
+    return 0;
+}
