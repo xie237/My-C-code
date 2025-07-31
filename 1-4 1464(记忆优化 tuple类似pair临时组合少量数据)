@@ -5,7 +5,7 @@
 typedef long long ll;
 using namespace std;
 vector<ll>result;
-map<tuple<ll, ll, ll>, ll>memo;
+map<tuple<ll, ll, ll>, ll>memo;//可以考虑用三维数组只记录前20或25个数据，减小运行内存，这个达到了7.28m
 ll w(ll a, ll b, ll c)
 {
     auto key = make_tuple(a, b, c); //make_tuple,make_pair自动推导类型，也可以显示指定类型tuple<int,int>
