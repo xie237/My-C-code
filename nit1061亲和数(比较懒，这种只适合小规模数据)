@@ -1,0 +1,28 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int itsprime(int num)
+{
+	int sum = 0;
+	for (int i = 1;i < num;i++)
+		if (num % i == 0) sum += i;
+	return sum;
+}
+int main() 
+{
+	int a, b;
+	cin >> a >> b;
+	vector<int>index;
+	int sum = 0;
+	for (int i = a;i <= b;i++)
+	{
+		vector<int>::iterator it = find(index.begin(), index.end(), i);
+		if (it == index.end()) {
+			int num = itsprime(i);
+			int num2 = itsprime(num);
+			if (num2 == i && num >= a && num <= b && num!=i) { sum++;index.push_back(i);index.push_back(num);}
+		}
+	}
+	cout << sum;
+	return 0;
+}
