@@ -1,0 +1,31 @@
+#include<iostream>
+using namespace std;
+string numm;
+char valueTochar(int num)
+{
+	return num + '0';
+}
+void decimalToBinaryRecursive(int n) {
+	if (n == 0) return;
+	decimalToBinaryRecursive(n / 2);
+	numm.push_back(valueTochar(n % 2));
+}
+
+int main() {
+	int num;
+	cin >> num;
+	if (num == 0) {
+		numm.push_back('0');
+	}
+	else {
+		decimalToBinaryRecursive(num);
+	}
+	if (numm.size() < 32)  numm.insert(0, 32 - numm.size(), '0');
+	for (int i = 16;i < numm.size();i++) { char t = numm[i]; numm[i] = numm[i - 16]; numm[i - 16] = t; }
+	unsigned int decimal = 0;
+	for (int i = 0;i < numm.size();i++) {
+		decimal = decimal * 2 + (numm[i] - '0');
+	}
+	cout << decimal;
+	return 0;
+}
