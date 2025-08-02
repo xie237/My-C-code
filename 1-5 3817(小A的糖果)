@@ -50,25 +50,25 @@ int main()
     int total_cost = 0;
     for (int i = 0;i <= n - 3;i++)
     {
-        int a = q[i]; int b = q[i + 1]; int c = q[i + 2];
+        int &a = q[i]; int &b = q[i + 1]; int &c = q[i + 2];
         do {
             if (a + b <= x && b + c <= x) break;//满足条件返回
             if ((a >= x || c >= x) && b != 0)
             {
-                if (a >= x && b != 0) { total_cost += (a - x); a -= x; q[i] = a; }
-                if (c >= x && b != 0) { total_cost += (c - x); c -= x; q[i + 2] = c; }
+                if (a >= x && b != 0) { total_cost += (a - x); a = x; }
+                if (c >= x && b != 0) { total_cost += (c - x); c = x; }
                 total_cost += b;
-                b = 0;q[i + 1] = 0;
+                b = 0;
             }
-            else if ((a < x || c < x) && b != 0)
+            if ((a < x || c < x) && b != 0)
             {
-                if (a < x && b != 0) { total_cost += (a + b - x); b = x - a; q[i + 1] = b; }
-                if (c < x && b != 0) { total_cost += (c + b - x); b = x - c; q[i + 1] = b; }
+                if (a < x && b != 0) { total_cost += (a + b - x); b = x - a; }
+                if (c < x && b != 0) { total_cost += (c + b - x); b = x - c; }
             }
-            else if (b == 0)
+            if (b == 0)
             {
-                if (a >= x) { total_cost += (a - x); a -= x; q[i] = a; }
-                if (c >= x) { total_cost += (c - x); c -= x; q[i + 2] = c; }
+                if (a >= x) { total_cost += (a - x); a = x; }
+                if (c >= x) { total_cost += (c - x); c = x; }
             }
         } while (true);
     }
