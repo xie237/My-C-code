@@ -1,0 +1,29 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    priority_queue<int,vector<int>,greater<int>>min_heap;
+    for(int i=0;i<n;i++)
+    {
+        int num;
+        cin>>num;
+        min_heap.push(num);
+    }
+    int total_cost=0;
+    while(min_heap.size()>1)
+    {
+        int a=min_heap.top();
+        min_heap.pop();
+        int b=min_heap.top();
+        min_heap.pop();
+        int sum=a+b;
+        total_cost+=sum;
+        min_heap.push(sum);
+    }
+    cout<<total_cost;
+    return 0;
+}
