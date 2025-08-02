@@ -1,0 +1,32 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+vector<int>beginn;
+vector<int>endn;
+bool compare(int a,int b)
+{
+    return endn[a]<endn[b];
+}
+int main()
+{
+    int n;
+    cin>>n;
+    beginn.resize(n); endn.resize(n);
+    vector<int>index(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>beginn[i]>>endn[i];
+        index[i]=i;
+    }
+    sort(index.begin(),index.end(),compare);
+    int count=1;
+    int prev_end=0;
+    for(int i=1;i<n;i++)
+    {
+        if(beginn[index[i]]<endn[index[prev_end]]) continue;
+        else {count++;prev_end=i;}
+    }
+    cout<<count;
+    return 0;
+}
