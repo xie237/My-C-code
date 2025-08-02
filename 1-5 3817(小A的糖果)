@@ -42,7 +42,7 @@ int main()
 {
     int n, x;
     cin >> n >> x;
-    vector<int> q;
+    vector<int> q(n);
     for (int i = 0;i < n;i++)
     {
         cin >> q[i];
