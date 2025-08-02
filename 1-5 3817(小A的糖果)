@@ -48,7 +48,7 @@ int main()
         cin >> q[i];
     }
     int total_cost = 0;
-    for (int i = 0;i < n - 3;i++)
+    for (int i = 0;i <= n - 3;i++)
     {
         int a = q[i]; int b = q[i + 1]; int c = q[i + 2];
         do {
