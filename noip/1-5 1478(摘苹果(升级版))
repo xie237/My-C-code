@@ -1,0 +1,41 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+vector<int> x;
+vector<int> y;
+int n, s, a, b;
+
+bool cando(int height) {
+    return height <= (a + b);
+}
+
+bool compare(int i, int j) {
+    return y[i] < y[j];
+}
+
+int main() {
+    cin >> n >> s >> a >> b;
+    x.resize(n);
+    y.resize(n);
+    vector<int> index(n);
+    
+    for (int i = 0; i < n; i++) {
+        cin >> x[i] >> y[i];
+        index[i] = i;
+    }
+    
+    sort(index.begin(), index.end(), compare);
+    
+    int count = 0;
+    for (int i = 0; i < n && s > 0; i++) {
+        if (cando(x[index[i]]) && s >= y[index[i]]) {
+            s -= y[index[i]];
+            count++;
+        }
+    }
+    
+    cout << count;
+    return 0;
+}
