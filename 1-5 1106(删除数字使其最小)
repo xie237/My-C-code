@@ -1,0 +1,31 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string num;
+    int k;
+    cin >> num >> k;
+    
+    // 删除k个数字
+    while (k--) {
+        int i;
+        for (i = 0; i + 1 < num.size() && num[i] <= num[i + 1]; ++i);
+        num.erase(i, 1);
+    }
+    
+    // 去除前导零
+    int start = 0;
+    while (start < num.size() && num[start] == '0') {
+        start++;
+    }
+    
+    // 输出结果
+    if (start == num.size()) {
+        cout << "0";  // 如果全部是零，输出一个0
+    } else {
+        cout << num.substr(start);
+    }
+    
+    return 0;
+}
