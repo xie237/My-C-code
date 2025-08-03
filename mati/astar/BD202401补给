@@ -1,0 +1,61 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+typedef long long ll;
+
+int main() {
+    int n;
+    ll B;
+    cin >> n >> B;
+    vector<ll> p(n), s(n);
+    vector<ll> total(n);
+    vector<ll> discount(n);
+    for (int i = 0; i < n; i++) {
+        cin >> p[i] >> s[i];
+        total[i] = p[i] + s[i];
+        discount[i] = (p[i] / 2) + s[i];
+    }
+
+    vector<ll> temp_total = total;
+    sort(temp_total.begin(), temp_total.end());
+    ll cur_sum = 0;
+    int ans0 = 0;
+    for (int i = 0; i < n; i++) {
+        if (cur_sum + temp_total[i] <= B) {
+            cur_sum += temp_total[i];
+            ans0++;
+        } else {
+            break;
+        }
+    }
+
+    int ans = ans0;
+
+    for (int i = 0; i < n; i++) {
+        if (discount[i] > B) continue;
+        ll rem = B - discount[i];
+        vector<ll> others;
+        for (int j = 0; j < n; j++) {
+            if (j == i) continue;
+            others.push_back(total[j]);
+        }
+        sort(others.begin(), others.end());
+        ll temp_sum = 0;
+        int count = 0;
+        for (int j = 0; j < others.size(); j++) {
+            if (temp_sum + others[j] <= rem) {
+                temp_sum += others[j];
+                count++;
+            } else {
+                break;
+            }
+        }
+        if (count + 1 > ans) {
+            ans = count + 1;
+        }
+    }
+
+    cout << ans << endl;
+    return 0;
+}
