@@ -1,0 +1,35 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+    int n,m;
+    cin>>n>>m;
+    vector<int>sequence(n);
+    vector<int>search_sequence;
+    for(int i=0;i<n;i++)
+        cin>>sequence[i];
+    vector<int>result;
+    for(int i=0;i<m;i++)
+    {
+        int num;
+        cin>>num;
+        search_sequence.push_back(num);
+        bool found=binary_search(sequence.begin(),sequence.end(),num);
+        if(found) {
+            auto it=lower_bound(sequence.begin(),sequence.end(),num);
+            int num=it-sequence.begin();
+            result.push_back(num+1);
+        }
+        else result.push_back(-1);
+    }
+    for(int i=0;i<m;i++)
+    {
+        cout<<result[i];
+        if(i!=m-1) cout<<" ";
+    }
+    return 0;
+}
