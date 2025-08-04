@@ -1,0 +1,75 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    int w,n;
+    cin>>w>>n;
+    vector<int>value(n);
+    int sum=0;
+    for(int i=0;i<n;i++)
+        cin>>value[i];
+    sort(value.begin(),value.end());
+    int left=0,right=n-1;
+    while(left<=right)
+    {
+        if(value[left]+value[right]<=w)
+        {
+            sum++;
+            right--;
+            left++;
+        }
+        else{
+            sum++;
+            right--;
+        }
+    }
+    cout<<sum;
+    return 0;
+}
+
+
+//最开始想用堆写，但是可能运用不熟练，在这里埋个坑，看以后能不能补上
+//我不在乎超时，看看能不能写
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+void pop(vector<int>& value)//删除队头
+{
+    pop_heap(value.begin(), value.end());
+    value.pop_back();
+}
+int main()
+{
+    int w, n;
+    cin >> w >> n;
+    vector<int>value(n);
+    for (int i = 0;i < n;i++)
+    {
+        cin >> value[i];
+    }
+    make_heap(value.begin(), value.end(), greater<int>());
+    int sum = 1;
+    int a = value.front();
+    pop(value);//移除队头
+    do {
+        int b;
+        for (int i = value.size() - 1;i >= 0;i--)
+        {
+            b = value[i];
+            if (a + b <= w) {
+                value.pop_back();
+                make_heap(value.begin(), value.end(), greater<int>());
+                a = value.front();
+                continue;
+            }
+        }
+        sum += 2;
+        a = value.front();
+        pop(value);
+    } while (!value.empty());
+    cout << sum;
+    return 0;
+}
