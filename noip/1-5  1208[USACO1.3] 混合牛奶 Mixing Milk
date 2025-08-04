@@ -1,0 +1,36 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+vector<int>p;
+vector<int>a;
+bool compare(int a,int b)
+{
+    return p[a]<p[b];
+}
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    if(n==0) {cout<<0; return 0;}
+    p.resize(m); a.resize(m);
+    vector<int>index(m);
+    for(int i=0;i<m;i++)
+    {
+        cin>>p[i]>>a[i];
+        index[i]=i;
+    }
+    int total_cost=0; int total_milk=0;
+    sort(index.begin(),index.end(),compare);
+    int i;
+    for(i=0;i<m;i++)
+    {
+        if(total_milk>=n) break;
+        total_cost+=p[index[i]]*a[index[i]];
+        total_milk+=a[index[i]];
+    }
+    int num=total_milk-n;
+    total_cost-=p[index[i-1]]*num;
+    cout<<total_cost;
+    return 0;
+}
