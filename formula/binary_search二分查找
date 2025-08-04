@@ -18,6 +18,10 @@ int main() {
     }
 int t=std::lower_bound(vec.begin(), vec.end(), 6)-vec.begin();//获取下标(找不到会返回不存在的下标)
 
+3. std::upper_bound
+
+//使用upper_bound返回第一个大于给定值的元素的迭代器。
+auto it = std::upper_bound(v.begin(), v.end(), 5);
 
     // 使用 equal_range 找范围
     auto range = std::equal_range(vec.begin(), vec.end(), 5);
