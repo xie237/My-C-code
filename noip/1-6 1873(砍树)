@@ -1,0 +1,38 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+    vector<int> trees(n);
+    for (int i = 0; i < n; i++) {
+        cin >> trees[i];
+    }
+    sort(trees.begin(), trees.end());
+    
+    long long left = 0, right = trees.back();
+    long long result = 0;
+    
+    while (left <= right) {
+        long long mid = left + (right - left) / 2;
+        long long sum = 0;
+        
+        for (int tree : trees) {
+            if (tree > mid) {
+                sum += tree - mid;
+            }
+        }
+        
+        if (sum >= m) {
+            result = mid;
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+    
+    cout << result << endl;
+    return 0;
+}
