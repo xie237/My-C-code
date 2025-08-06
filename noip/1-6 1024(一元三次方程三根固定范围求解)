@@ -1,0 +1,39 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+double a,b,c,d;
+vector<double>result;
+double f(double x)
+{
+    double result=a*x*x*x+b*x*x+c*x+d;
+    return result;
+}
+double binary_(double left,double right)
+{
+    while(right-left>1e-8)
+    {
+        double mid=(left+right)/2;
+        if(f(mid)*f(left)<0) right=mid;
+        else left=mid;
+    }
+    return left;
+}
+int main()
+{
+    cin>>a>>b>>c>>d;
+    double left=-100,right=100;
+    for(double i=-100;i<=100;i++)
+    {
+        double left=i;
+        double right=i+1;
+        if(f(left)==0) result.push_back(left);
+        if(f(left)*f(right)<0){
+            double re=binary_(left,right);
+            result.push_back(re);
+        }
+    }
+    sort(result.begin(),result.end());
+    for(int i=0;i<3;i++) {printf("%.2lf",result[i]);if(i!=2) cout<<" ";}
+    return 0;
+}
