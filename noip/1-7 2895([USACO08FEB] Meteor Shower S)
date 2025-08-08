@@ -1,0 +1,86 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<climits>
+using namespace std;
+
+int m;
+int meteorway[5][2] = {{-1,0},{1,0},{0,-1},{0,1},{0,0}}; // 上下左右和自身
+int myway[4][2] = {{-1,0},{1,0},{0,-1},{0,1}}; // 上下左右移动方向
+
+struct Meteor {
+    int x, y, t;
+};
+
+int main() {
+    cin >> m;
+    vector<Meteor> meteors(m);
+    int max_time = 0;
+    
+    for (int i = 0; i < m; i++) {
+        cin >> meteors[i].x >> meteors[i].y >> meteors[i].t;
+        max_time = max(max_time, meteors[i].t);
+    }
+    
+    // 创建网格并标记危险时间
+    vector<vector<int>> danger(302, vector<int>(302, INT_MAX));
+    for (const auto& meteor : meteors) {
+        for (int i = 0; i < 5; i++) {
+            int nx = meteor.x + meteorway[i][0];
+            int ny = meteor.y + meteorway[i][1];
+            if (nx >= 0 && ny >= 0 && nx <= 301 && ny <= 301) {
+                danger[nx][ny] = min(danger[nx][ny], meteor.t);
+            }
+        }
+    }
+    
+    // BFS
+    queue<pair<pair<int, int>, int>> q; // 存储位置和到达时间
+    vector<vector<bool>> visited(302, vector<bool>(302, false));
+    
+    q.push({{0, 0}, 0});
+    visited[0][0] = true;
+    
+    while (!q.empty()) {
+        auto current = q.front();
+        q.pop();
+        int cx = current.first.first;
+        int cy = current.first.second;
+        int ctime = current.second;
+        
+        // 如果当前位置在ctime时刻是安全的
+        if (danger[cx][cy] > ctime) {
+            // 检查是否到达安全区域
+            bool safe = true;
+            for (const auto& meteor : meteors) {
+                if (danger[cx][cy] == INT_MAX) {
+                    safe = true;
+                    break;
+                }
+                safe = false;
+            }
+            if (safe) {
+                cout << ctime << endl;
+                return 0;
+            }
+            
+            // 尝试四个方向移动
+            for (int i = 0; i < 4; i++) {
+                int nx = cx + myway[i][0];
+                int ny = cy + myway[i][1];
+                int ntime = ctime + 1;
+                
+                if (nx >= 0 && ny >= 0 && nx <= 301 && ny <= 301 && 
+                    !visited[nx][ny] && danger[nx][ny] > ntime) {
+                    visited[nx][ny] = true;
+                    q.push({{nx, ny}, ntime});
+                }
+            }
+        }
+    }
+    
+    cout << -1 << endl; // 没有找到安全位置
+    return 0;
+}
+
+//show me some flowers
