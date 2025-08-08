@@ -1,0 +1,40 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+int way[8][2] = { {-2,1},{-1,2},{2,1},{1,2},{-2,-1},{-1,-2},{1,-2},{2,-1} };
+int main()
+{
+    int n, m, x, y;
+    cin >> n >> m >> x >> y;
+    vector<vector<int>>matrix(n + 1, vector<int>(m + 1, -1));
+    matrix[x][y] = 0;//原位标记0
+    queue<pair<int,int>>q;
+    q.push({x,y});
+    while(!q.empty())
+    {
+        auto current=q.front();
+        q.pop();
+        int cx=current.first, cy=current.second;
+        for(int i=0;i<8;i++)//8个方向
+        {
+            int nx=cx+way[i][0], ny=cy+way[i][1];//新坐标
+            //验证是否在棋盘内
+            if(nx>=1 && nx<=n && ny>=1 && ny<=m && matrix[nx][ny]==-1)
+            {
+                matrix[nx][ny]=matrix[cx][cy]+1;
+                q.push({nx,ny});
+            }
+        }
+    }
+    for (int i = 1;i <= n;i++)
+    {
+        for (int j = 1;j <= m;j++)
+        {
+            cout << matrix[i][j];
+            if (j != m) cout << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
