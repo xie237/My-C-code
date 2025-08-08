@@ -1,0 +1,54 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int main() {
+    int s1, s2, s3, s4;
+    cin >> s1 >> s2 >> s3 >> s4;
+    
+    // 读取四科题目时间
+    vector<int> times[4] = {
+        vector<int>(s1),
+        vector<int>(s2),
+        vector<int>(s3),
+        vector<int>(s4)
+    };
+    
+    for (int i = 0; i < s1; i++) cin >> times[0][i];
+    for (int i = 0; i < s2; i++) cin >> times[1][i];
+    for (int i = 0; i < s3; i++) cin >> times[2][i];
+    for (int i = 0; i < s4; i++) cin >> times[3][i];
+    
+    int total_time = 0;
+    
+    // 处理每一科
+    for (auto &subject : times) {
+        int sum = 0;
+        for (int t : subject) sum += t;
+        
+        int cap = sum / 2;  // 背包容量（总时间的一半）
+        vector<bool> dp(cap + 1, false);  // dp数组：dp[j]表示能否组成时间j
+        dp[0] = true;  // 初始化：0时间总是可达
+        
+        // 0-1背包动态规划
+        for (int t : subject) {
+            // 反向更新：避免重复选择同一题目
+            for (int j = cap; j >= t; j--) {
+                if (dp[j - t]) {
+                    dp[j] = true;
+                }
+            }
+        }
+        
+        // 找不超过cap的最大时间j
+        int j = cap;
+        while (j >= 0 && !dp[j]) j--;
+        
+        // 该科最短时间 = 两组中较大值（sum - j）
+        total_time += (sum - j);
+    }
+    
+    cout << total_time << endl;
+    return 0;
+}
