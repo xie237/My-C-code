@@ -38,3 +38,51 @@ int main()
     }
     return 0;
 }
+
+
+
+//可以看出这道题最短路径应该用bfs，但我初学，用来dfs，虽然很偏离，
+//但第一次手动完整书写dfs，虽然部分逻辑错误，不符题意，但很高兴哦那个，下面代码附上
+#include<iostream>
+#include<vector>
+using namespace std;
+int way[8][2] = { {-2,1},{-1,2},{2,1},{1,2},{-2,-1},{-1,-2},{1,-2},{2,-1} };
+int n, m;
+bool tf = false;
+vector<vector<int>>result;
+void work(vector<vector<int>>& matrix, int x, int y)
+{
+    if (matrix[x][y] != -1) return;
+    int num = 1;
+    for (int i = 0;i < 8;i++)
+    {
+        if ((x + way[i][0] >= 1 && x + way[i][0] <= n) && (y + way[i][1] >= 1 && y + way[i][1] <= m))
+        {
+            matrix[x + way[i][0]][y + way[i][1]] = num;
+            num++;
+            work(matrix, x + way[i][0], y + way[i][1]);
+            matrix[x + way[i][0]][y + way[i][1]] = -1;
+            num--;
+        }
+        else continue;
+    }
+}
+int main()
+{
+    int x, y;
+    cin >> n >> m >> x >> y;
+    result.resize(n,vector<int>(m));
+    vector<vector<int>>matrix(n + 1, vector<int>(m + 1, -1));
+    work(matrix, x, y);
+    matrix[x][y] = 0;
+    for (int i = 1;i <= n;i++)
+    {
+        for (int j = 1;j <= m;j++)
+        {
+            cout << matrix[i][j];
+            if (j != m) cout << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
