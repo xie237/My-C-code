@@ -77,3 +77,81 @@ int main() {
 }
 
 //show me the flower
+
+
+//二次修改冗余
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<climits>
+using namespace std;
+
+int m;
+int meteorway[5][2] = { {0,0}, {0,1}, {0,-1}, {-1,0}, {1,0} }; // 中心、右、左、上、下
+int myway[4][2] = { {0,1}, {0,-1}, {-1,0}, {1,0} }; // 右、左、上、下
+
+struct meteor {
+    int x;
+    int y;
+    int t;
+};
+
+int main() {
+    cin >> m;
+    vector<meteor> meteors(m);
+    for (int i = 0; i < m; i++) {
+        cin >> meteors[i].x >> meteors[i].y >> meteors[i].t;
+    }
+
+    // 初始化 danger 数组，记录每个位置最早被陨石击中的时间
+    vector<vector<int>> danger(302, vector<int>(302, INT_MAX));
+    for (const auto& meteor : meteors) {
+        for (int i = 0; i < 5; i++) {
+            int nx = meteor.x + meteorway[i][0];
+            int ny = meteor.y + meteorway[i][1];
+            if (nx >= 0 && nx <= 301 && ny >= 0 && ny <= 301) {
+                danger[nx][ny] = min(danger[nx][ny], meteor.t);
+            }
+        }
+    }
+
+    // BFS
+    queue<pair<pair<int, int>, int>> q; // {{x, y}, time}
+    vector<vector<bool>> visited(302, vector<bool>(302, false));
+    q.push({ {0, 0}, 0 });
+    visited[0][0] = true;
+
+    while (!q.empty()) {  // 修正：!q.empty()
+        auto current = q.front();
+        q.pop();
+        int cx = current.first.first;
+        int cy = current.first.second;
+        int ctime = current.second;
+
+        // 如果当前位置永远不会被陨石击中，输出时间并结束
+        if (danger[cx][cy] == INT_MAX) {
+            cout << ctime;
+            return 0;
+        }
+
+        // 如果当前位置当前时间是安全的
+        if (danger[cx][cy] > ctime) {
+            for (int i = 0; i < 4; i++) {
+                int nx = cx + myway[i][0];
+                int ny = cy + myway[i][1];
+                int ntime = ctime + 1;
+
+                // 检查新位置是否合法且未被访问，并且在 ntime 时刻安全
+                if (nx >= 0 && nx <= 301 && ny >= 0 && ny <= 301 &&
+                    !visited[nx][ny] && danger[nx][ny] > ntime) {
+                    visited[nx][ny] = true;
+                    q.push({ {nx, ny}, ntime });
+                }
+            }
+        }
+    }
+
+    // 如果 BFS 结束仍未找到安全点，输出 -1
+    cout << -1;
+    return 0;
+}
