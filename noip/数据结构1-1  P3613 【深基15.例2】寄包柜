@@ -1,0 +1,31 @@
+#include<iostream>
+#include<vector>
+#include<map>
+#include<utility>
+using namespace std;
+int main()
+{
+    map<pair<int,int>,int>bag;
+    int n,q;
+    cin>>n>>q;
+    vector<int>result;
+    for(int i=0;i<q;i++)
+    {
+        int index;
+        cin>>index;
+        if(index==1){
+            int num1,num2,k;
+            cin>>num1>>num2>>k;
+            if(k!=0) bag[{num1,num2}]=k;
+            else bag.erase({num1,num2});
+        }
+        else {
+            int num1,num2;
+            cin>>num1>>num2;
+            result.push_back(bag[{num1,num2}]);
+        }
+    }
+    for(int i=0;i<result.size();i++)
+            cout<<result[i]<<endl;
+    return 0;
+}
