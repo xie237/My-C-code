@@ -1,0 +1,47 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+
+int sx, sy, fx, fy;
+int n, m, t;
+int sum = 0;
+int way[4][2] = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} };
+vector<vector<bool>> visited;
+vector<vector<int>> obstacle;
+
+bool inBounds(int x, int y) {
+    return x >= 0 && x < n && y >= 0 && y < m;
+}
+void dfs(int x, int y) {
+    if (x == fx && y == fy) {
+        sum++;
+        return;
+    }
+    for (int i = 0; i < 4; i++) {
+        int nx = x + way[i][0];
+        int ny = y + way[i][1];
+        if (inBounds(nx, ny) && obstacle[nx][ny] != -1 && !visited[nx][ny]) {
+            visited[nx][ny] = true;
+            dfs(nx, ny);
+            visited[nx][ny] = false;
+        }
+    }
+}
+int main() {
+    cin >> n >> m >> t;
+    cin >> sx >> sy >> fx >> fy;
+    sx--; sy--; fx--; fy--;
+    visited.resize(n, vector<bool>(m, false));
+    obstacle.resize(n, vector<int>(m, 1));
+    for (int i = 0; i < t; i++) {
+        int x, y;
+        cin >> x >> y;
+        obstacle[x - 1][y - 1] = -1;
+    }
+
+    visited[sx][sy] = true;
+    dfs(sx, sy);
+    cout << sum;
+    return 0;
+}
+//完全自己做的，除了下标问题，发现是最开始输入时没有将数转换为下标
