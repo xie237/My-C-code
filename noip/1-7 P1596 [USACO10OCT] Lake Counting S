@@ -1,0 +1,51 @@
+#include<iostream>
+#include<vector>
+#include<queue>
+#include<utility>
+using namespace std;
+int n,m;
+vector<vector<char>>matrix;
+vector<vector<bool>>visited;
+int way[8][2]={{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1}};
+int sum=0;
+bool isSafe(int x,int y)
+{
+    if(x>=0 && x<n && y>=0 && y<m) return true;
+    return false;
+}
+void bfs(int x,int y)
+{
+    queue<pair<int,int>>q;
+    q.push({x,y});
+    visited[x][y]=true;
+    while(!q.empty())
+    {
+        int cx=q.front().first;
+        int cy=q.front().second;
+        q.pop();
+        for(int i=0;i<8;i++)
+        {
+            int nx=cx+way[i][0];
+            int ny=cy+way[i][1];
+            if(isSafe(nx,ny) && matrix[nx][ny]=='W' && visited[nx][ny]==false)
+            {
+                visited[nx][ny]=true;
+                q.push({nx,ny});
+            }
+        }
+    }
+}
+int main()
+{
+    cin>>n>>m;
+    matrix.resize(n,vector<char>(m));
+    visited.resize(n,vector<bool>(m,false));
+    for(int i=0;i<n;i++)
+        for(int j=0;j<m;j++)
+            cin>>matrix[i][j];
+    for(int i=0;i<n;i++)
+        for(int j=0;j<m;j++)
+            if(matrix[i][j]=='W' && visited[i][j]==false) {bfs(i,j);sum++;}
+    cout<<sum;
+    return 0;
+}
