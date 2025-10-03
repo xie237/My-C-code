@@ -1,0 +1,66 @@
+#include<iostream>
+#include<vector>
+#include<utility>
+#include<queue>
+#include<algorithm>
+using namespace std;
+int num;
+int way[8][2]={{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1},{-1,-1}};
+string words="yizhong";
+vector<vector<char>>matrix;
+vector<vector<bool>>visited;
+bool isSafe(int x,int y)
+{
+    if(x<num && x>=0 && y>=0 && y<num) return true;
+    return false;
+}
+bool checkDirection(int x,int y,int dir)
+{
+    for(int i=0;i<words.size();i++)
+    {
+        int nx=x+way[dir][0]*i;
+        int ny=y+way[dir][1]*i;
+        if(!isSafe(nx,ny) || matrix[nx][ny]!=words[i])
+            return false;
+    }
+    return true;
+}
+void markDirection(int x,int y,int dir)
+{
+    for(int i=0;i<words.length();i++)
+    {
+        int nx=x+way[dir][0]*i;
+        int ny=y+way[dir][1]*i;
+        visited[nx][ny]=true;
+    }
+}
+void search(int x,int y)
+{
+    for(int dir=0;dir<8;dir++)
+    {
+        if(checkDirection(x,y,dir))
+            markDirection(x,y,dir);
+    }
+}
+int main()
+{
+    cin>>num;
+    matrix.resize(num,vector<char>(num));
+    visited.resize(num,vector<bool>(num,false));
+    for(int i=0;i<num;i++)
+        for(int j=0;j<num;j++)
+            cin>>matrix[i][j];
+    for(int i=0;i<num;i++)
+        for(int j=0;j<num;j++)
+            if(matrix[i][j]=='y')search(i,j);
+    for(int i=0;i<num;i++)
+    {
+        for(int j=0;j<num;j++)
+        {
+            if(visited[i][j]==true) cout<<matrix[i][j];
+            else cout<<"*";
+        }
+        cout<<endl;
+    }
+    return 0;
+}
