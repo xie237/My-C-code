@@ -1,0 +1,28 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int>a(n);
+    vector<int>profix(n,0);
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i];
+        if(i==0) profix[i]=a[i];
+        else profix[i]=profix[i-1]+a[i];
+    }
+    int m;
+    cin>>m;
+    vector<int>result;
+    for(int i=0;i<m;i++)
+    {
+        int b,c;
+        cin>>b>>c;
+        result.push_back(profix[c-1]-profix[b-2]);
+    }
+    for(int i=0;i<result.size();i++)
+        cout<<result[i]<<endl;
+    return 0;
+}
