@@ -1,0 +1,71 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int>a(n);
+    vector<int>profix(n,0);
+    for(int i=0;i<n;i++)
+    {
+        cin>>a[i];
+        if(i==0) profix[i]=a[i];
+        else profix[i]=profix[i-1]+a[i];
+    }
+    int m;
+    cin>>m;
+    vector<int>result;
+    for(int i=0;i<m;i++)
+    {
+        int b,c;
+        cin>>b>>c;
+        result.push_back(profix[c-1]-profix[b-2]);
+    }
+    for(int i=0;i<result.size();i++)
+        cout<<result[i]<<endl;
+    return 0;
+}
+
+
+
+//二维
+class MatrixPrefixSum {
+private:
+    vector<vector<int>> prefix;
+    
+public:
+    MatrixPrefixSum(vector<vector<int>>& matrix) {
+        int m = matrix.size(), n = matrix[0].size();
+        prefix.resize(m + 1, vector<int>(n + 1, 0));
+        
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                prefix[i + 1][j + 1] = prefix[i][j + 1] + 
+                                      prefix[i + 1][j] - 
+                                      prefix[i][j] + 
+                                      matrix[i][j];
+            }
+        }
+    }
+    
+    // 查询子矩阵 [(x1,y1), (x2,y2)] 的和
+    int query(int x1, int y1, int x2, int y2) {
+        return prefix[x2 + 1][y2 + 1] - prefix[x1][y2 + 1] - 
+               prefix[x2 + 1][y1] + prefix[x1][y1];
+    }
+};
+
+// 使用示例
+int main() {
+    vector<vector<int>> matrix = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+    
+    MatrixPrefixSum mps(matrix);
+    cout << "Submatrix sum: " << mps.query(1, 1, 2, 2) << endl; // 5+6+8+9=28
+    
+    return 0;
+}
