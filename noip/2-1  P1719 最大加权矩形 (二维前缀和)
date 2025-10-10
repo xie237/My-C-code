@@ -39,3 +39,48 @@ int main()
     cout<<result;
     return 0;
 }
+
+
+//deepseek给的Kadane算法
+#include<iostream>
+#include<vector>
+#include<climits>
+using namespace std;
+
+int main() {
+    int n;
+    cin >> n;
+    vector<vector<int>> matrix(n, vector<int>(n));
+    
+    for(int i = 0; i < n; i++) {
+        for(int j = 0; j < n; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+    
+    int maxSum = INT_MIN;
+    
+    for(int top = 0; top < n; top++) {
+        vector<int> colSum(n, 0);
+        
+        for(int bottom = top; bottom < n; bottom++) {
+            for(int j = 0; j < n; j++) {
+                colSum[j] += matrix[bottom][j];
+            }
+            
+            // Kadane's algorithm
+            int current = colSum[0];
+            int maxCurrent = colSum[0];
+            
+            for(int j = 1; j < n; j++) {
+                current = max(colSum[j], current + colSum[j]);
+                maxCurrent = max(maxCurrent, current);
+            }
+            
+            maxSum = max(maxSum, maxCurrent);
+        }
+    }
+    
+    cout << maxSum << endl;
+    return 0;
+}
