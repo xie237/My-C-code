@@ -1,0 +1,32 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    int n,p;
+    cin>>n>>p;
+    vector<int>grade(n);
+    vector<int>diff(n);
+    for(int i=0;i<n;i++)
+    {
+        cin>>grade[i];
+        if(i==0) diff[0]=grade[0];
+        else diff[i]=grade[i]-grade[i-1];
+    }
+    for(int i=0;i<p;i++)
+    {
+        int x,y,z;
+        cin>>x>>y>>z;
+        diff[x-1]+=z;
+        diff[y]-=z;
+    }
+    for(int i=0;i<n;i++)
+    {
+        if(i!=0) grade[i]=grade[i-1]+diff[i];
+        else grade[0]=diff[0];
+    }
+    sort(grade.begin(),grade.end());
+    cout<<grade[0];
+    return 0;
+}
