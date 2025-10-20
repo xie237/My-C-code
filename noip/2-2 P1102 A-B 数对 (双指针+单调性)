@@ -1,0 +1,25 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    int n;
+    long long c;
+    cin>>n>>c;
+    vector<int>arr(n);
+    for(int i=0;i<n;i++)
+        cin>>arr[i];
+    sort(arr.begin(),arr.end());//保证单增
+    long long ans=0;
+    int j=0,k=0;//找到a=b+c，固定b，c找a
+    for(int i=0;i<n;i++)
+    {
+        long long target=arr[i]+c;
+        while(j<n && arr[j]<target) j++;
+        while(k<n && arr[k]<=target) k++;
+        if(j<n && arr[j]==target) ans+=(k-j);
+    }
+    cout<<ans;
+    return 0;
+}
