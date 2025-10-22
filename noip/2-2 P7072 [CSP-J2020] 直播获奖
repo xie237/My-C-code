@@ -55,3 +55,16 @@ int main()
     }
     return 0;
 }
+
+
+//计数排序（还没验证）
+vector<int> count(601, 0);  // 完美利用已知条件：成绩范围0-600
+
+// 每次新增成绩
+count[score]++;  // O(1)操作
+
+// 查询第k名
+for(int j = 600; j >= 0; j--){  // 最多601次循环
+    sum += count[j];
+    if(sum >= k) 找到结果;
+}
