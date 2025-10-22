@@ -1,0 +1,26 @@
+#include<iostream>
+#include<vector>
+#include<cmath>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int>arr(n);
+    vector<int>prefix(n,0);
+    for(int i=0;i<n;i++)
+    {
+        cin>>arr[i];
+        if(i!=0) prefix[i]=prefix[i-1]+arr[i];
+        else prefix[i]=arr[i];
+    }
+    int result=prefix[0];
+    int min_prefix=0;
+    for(int i=0;i<n;i++)
+    {
+        result=max(result,prefix[i]-min_prefix);
+        min_prefix=min(min_prefix,prefix[i]);
+    }
+    cout<<result;
+    return 0;
+}
