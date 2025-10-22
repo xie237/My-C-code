@@ -27,7 +27,7 @@ int main()
     return 0;
 }
 
-//插入排序超时版本
+//插入排序
 #include<iostream>
 #include<vector>
 #include<cmath>
@@ -46,7 +46,6 @@ int main()
         grade.insert(it, score);
         double n=(i+1)*winrate/100.00;
         int min_winrate=max(1,(int)floor(n));
-        sort(grade.begin(),grade.end(),greater<int>());
         int num=grade[min_winrate-1];
         result.push_back(num);
     }
@@ -56,4 +55,3 @@ int main()
     }
     return 0;
 }
-
