@@ -1,0 +1,42 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+int main()
+{
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int numOfdraw,numOfpainter;
+    cin>>numOfdraw>>numOfpainter;
+    vector<int>arr(numOfdraw);
+    for(int i=0;i<numOfdraw;i++)
+        cin>>arr[i];
+    vector<int>count(numOfpainter+1,0);
+    int distinct=0;
+    int bestleft=0;
+    int minlen=numOfdraw+1;
+    
+    int left=0;
+    
+    for(int right=0;right<numOfdraw;right++)
+    {
+        if(count[arr[right]]==0){
+            distinct++;
+        }
+        count[arr[right]]++;
+
+        while(distinct==numOfpainter){
+            int len=right-left+1;
+            if(len<minlen){
+                minlen=len;
+                bestleft=left;
+            }
+            count[arr[left]]--;
+            if(count[arr[left]]==0){
+                distinct--;
+            }
+            left++;
+        }
+    }
+    cout<<bestleft+1<< " "<<bestleft+minlen;
+    return 0;
+}
