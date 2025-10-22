@@ -68,3 +68,67 @@ for(int j = 600; j >= 0; j--){  // 最多601次循环
     sum += count[j];
     if(sum >= k) 找到结果;
 }
+
+
+//deepseek给的代码规范性建议基于计数排序
+#include<iostream>
+#include<vector>
+#include<cmath>
+#include<algorithm>
+using namespace std;
+
+const int MAX_SCORE = 600;
+const double PERCENT = 100.0;
+
+// 计算获奖人数
+int calculateWinners(int current_count, int win_rate) {
+    double percentage = current_count * win_rate / PERCENT;
+    return max(1, (int)floor(percentage));
+}
+
+// 获取当前分数线
+int getCurrentScoreLine(const vector<int>& count, int winners_count) {
+    int sum = 0;
+    for(int score = MAX_SCORE; score >= 0; score--) {
+        sum += count[score];
+        if(sum >= winners_count) {
+            return score;
+        }
+    }
+    return 0;
+}
+
+int main() {
+    int num_competitors, win_rate;
+    cin >> num_competitors >> win_rate;
+    
+    vector<int> score_count(MAX_SCORE + 1, 0);
+    vector<int> result;
+    
+    for(int i = 0; i < num_competitors; i++) {
+        int score;
+        cin >> score;
+        score_count[score]++;
+        
+        int winners_count = calculateWinners(i + 1, win_rate);
+        int score_line = getCurrentScoreLine(score_count, winners_count);
+        result.push_back(score_line);
+    }
+    
+    // 输出结果
+    for(int i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if(i != result.size() - 1) {
+            cout << " ";
+        }
+    }
+    cout << endl;
+    
+    return 0;
+}
+
+// 可以单独测试这个函数
+void testCalculateWinners() {
+    assert(calculateWinners(10, 50) == 5);
+    assert(calculateWinners(1, 60) == 1);
+}
