@@ -1,0 +1,161 @@
+1. 二分查找系列 - O(log n)
+cpp
+
+vector<int> nums = {1, 3, 5, 7, 9};
+
+// 检查是否存在
+bool found = binary_search(nums.begin(), nums.end(), 5); // true
+
+// 查找第一个 ≥5 的位置
+auto lower = lower_bound(nums.begin(), nums.end(), 5); // 指向5
+// 用途：插入5时应该插入的位置
+
+// 查找第一个 >5 的位置  
+auto upper = upper_bound(nums.begin(), nums.end(), 5); // 指向7
+// 用途：删除所有等于5的元素
+
+// 同时获取上下界
+auto range = equal_range(nums.begin(), nums.end(), 5);
+// range.first指向5, range.second指向7
+
+应用场景：有序数组的查找、插入位置确定、范围查询
+2. 堆操作系列 - O(log n)
+cpp
+
+vector<int> nums = {3, 1, 4, 1, 5};
+
+// 建立最大堆 [5, 3, 4, 1, 1]
+make_heap(nums.begin(), nums.end());
+
+// 弹出堆顶（最大元素移到末尾）
+pop_heap(nums.begin(), nums.end()); // 堆: [4, 3, 1, 1], 末尾:5
+nums.pop_back(); // 真正删除
+
+// 添加新元素并调整堆
+nums.push_back(6);
+push_heap(nums.begin(), nums.end()); // 堆: [6, 4, 1, 1, 3]
+
+应用场景：优先队列、TopK问题、调度算法
+3. 划分操作 - O(n)
+cpp
+
+vector<int> nums = {5, 2, 8, 1, 9, 3};
+
+// 快速划分：把<5的放左边，≥5的放右边
+auto mid = partition(nums.begin(), nums.end(), 
+                    [](int x) { return x < 5; });
+// 结果: [2, 1, 3, 5, 9, 8] ← mid指向5
+
+// 稳定划分：保持原有相对顺序
+auto mid2 = stable_partition(nums.begin(), nums.end(), 
+                           [](int x) { return x % 2 == 0; });
+// 结果: [2, 8, 5, 1, 9, 3] ← 偶数在前，顺序不变
+
+应用场景：快速排序、分类处理、筛选数据
+4. 部分排序 - O(n log k)
+cpp
+
+vector<int> nums = {5, 2, 8, 1, 9, 3};
+
+// 部分排序：只保证前3个是最小的且有序
+partial_sort(nums.begin(), nums.begin() + 3, nums.end());
+// 结果: [1, 2, 3, 8, 5, 9]
+
+// 第n小元素：把第3小的元素放到正确位置
+nth_element(nums.begin(), nums.begin() + 2, nums.end());
+// 结果: [1, 2, 3, 8, 9, 5] ← 位置2的元素是3
+
+应用场景：TopK问题、中位数查找、排行榜
+5. 合并操作 - O(n+m)
+cpp
+
+vector<int> nums1 = {1, 3, 5};
+vector<int> nums2 = {2, 4, 6};
+vector<int> result(6);
+
+// 合并两个有序序列
+merge(nums1.begin(), nums1.end(), 
+      nums2.begin(), nums2.end(), 
+      result.begin());
+// result: [1, 2, 3, 4, 5, 6]
+
+// 原地合并（用于归并排序）
+vector<int> nums = {1, 3, 5, 2, 4, 6};
+inplace_merge(nums.begin(), nums.begin() + 3, nums.end());
+// nums: [1, 2, 3, 4, 5, 6]
+
+应用场景：归并排序、多路归并、有序集合合并
+6. 集合操作 - O(n+m)
+cpp
+
+vector<int> set1 = {1, 2, 3, 4};
+vector<int> set2 = {3, 4, 5, 6};
+vector<int> result(8);
+
+// 并集: {1, 2, 3, 4, 5, 6}
+auto it = set_union(set1.begin(), set1.end(),
+                   set2.begin(), set2.end(),
+                   result.begin());
+
+// 交集: {3, 4}
+it = set_intersection(set1.begin(), set1.end(),
+                     set2.begin(), set2.end(),
+                     result.begin());
+
+// 差集: {1, 2} (在set1中但不在set2中)
+it = set_difference(set1.begin(), set1.end(),
+                   set2.begin(), set2.end(),
+                   result.begin());
+
+应用场景：集合运算、数据库查询、数据比对
+7. 排列组合 - O(n)
+cpp
+
+vector<int> nums = {1, 2, 3};
+
+// 生成所有排列
+do {
+    // 第一次: [1, 2, 3]
+    // 第二次: [1, 3, 2] 
+    // 第三次: [2, 1, 3] ...
+} while(next_permutation(nums.begin(), nums.end()));
+
+// 上一个排列
+prev_permutation(nums.begin(), nums.end());
+
+应用场景：全排列、组合优化、密码破解
+8. 数值算法 - O(n)
+cpp
+
+#include <numeric>
+vector<int> nums = {1, 2, 3, 4, 5};
+
+// 累加求和
+int sum = accumulate(nums.begin(), nums.end(), 0); // 15
+
+// 内积（点积）
+int product = inner_product(nums.begin(), nums.end(), 
+                           nums.begin(), 0); // 1*1 + 2*2 + ... = 55
+
+// 前缀和
+vector<int> prefix(nums.size());
+partial_sum(nums.begin(), nums.end(), prefix.begin());
+// prefix: [1, 3, 6, 10, 15]
+
+// 相邻差值
+vector<int> diff(nums.size());
+adjacent_difference(nums.begin(), nums.end(), diff.begin());
+// diff: [1, 1, 1, 1, 1] (第一个元素保持原值)
+
+应用场景：统计分析、数值计算、数据处理
+核心优势：
+
+    高性能：底层都是最优算法
+
+    安全：自动处理边界条件
+
+    通用：适用于各种容器
+
+    可读：语义清晰，减少代码量
+
+掌握这些模板，很多复杂算法都能用几行代码实现！
