@@ -2,6 +2,9 @@
 这个github库是我的算法题库，不包含任何算法题目，算法构成或多或少有些许引用，但不构成侵权，如有异议，发送至我的邮箱：18656207563@163.com进行商讨
 This GitHub repository is my algorithm question repository, which does not contain any algorithm questions. The algorithms contained here may have some references, but they do not constitute infringement. If you have any objections, please send them to my email: 18656207563@163.com for discussion
 
+在开发完我的鸿蒙和安卓应用后，感觉对开发了解甚多，现在接着搞算法2026.2.5
+
+
 since freshman to senior student(截止至4.12大一篇已终结)
 7.5大二篇开始，根据洛谷题单刷题
 算法篇： 
