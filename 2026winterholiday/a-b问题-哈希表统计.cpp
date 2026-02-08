@@ -4,38 +4,33 @@
 using namespace std;
 
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
     int n, c;
     cin >> n >> c;
-
-    vector<int> num(n);
+    
+    vector<int> a(n);
     unordered_map<int, int> cnt;
-
+    
     for(int i = 0; i < n; i++){
-        cin >> num[i];
-        cnt[num[i]]++;
+        cin >> a[i];
+        cnt[a[i]]++;
     }
-
-    long long ans = 0;  // 用long long，可能很大
-
+    
+    long long ans = 0;
+    
     if(c == 0){
-        // 特殊处理C=0 - C++11兼容写法
-        for(unordered_map<int, int>::iterator it = cnt.begin(); it != cnt.end(); ++it){
-            long long count = it->second;  // 出现次数
-            ans += count * (count - 1);
+        for(auto& p : cnt){
+            long long t = p.second;
+            ans += t * (t - 1);
         }
     } else {
-        // 正常情况 - C++11兼容写法
         for(int i = 0; i < n; i++){
-            int current = num[i];
-            long long target = (long long)current + c;  // 防止溢出
-
-            if(cnt.find(target) != cnt.end()){  // C++11风格查找
-                ans += cnt[target];
-            }
+            ans += cnt[a[i] + c];
         }
     }
-
+    
     cout << ans;
-
     return 0;
 }
