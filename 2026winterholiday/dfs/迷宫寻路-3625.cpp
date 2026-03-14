@@ -61,8 +61,15 @@ int main() {
     return 0;
 }
 
+/*
+顺带练了一下dfs，但本题超时，迷宫题要选bfs
 
-//顺带练了一下dfs，但本题超时，最短路径要选bfs
+所有边权相同 ✅ BFS
+边权不同但都为正数 ⚠️ 用 Dijkstra
+情况3：有负权边 ⚠️ 用 Bellman-Ford/SPFA
+
+*/
+
 #include<iostream>
 #include<vector>
 using namespace std;
