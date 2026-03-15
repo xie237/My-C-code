@@ -26,7 +26,8 @@ int main(){
         for(int p : primes){
             if(i * p > n) break;
             notPrime[i * p] = true;
-            if(i % p == 0) break; //灵魂代码
+            if(i % p == 0) break; 
+            //灵魂代码，确保了每个合数只被它的最小质因子筛掉一次
         }
     }
 
