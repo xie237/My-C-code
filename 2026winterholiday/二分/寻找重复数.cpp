@@ -51,4 +51,7 @@ while (l < r) {
 找最大：mid 加1，满足往右，不满足往左
 
 while (l < r) 退出时 l == r，所以返回 l 还是 r 都一样。
+
+找左边	mid = (l+r)/2	l = mid+1 或 r = mid
+找右边	mid = (l+r+1)/2	l = mid 或 r = mid-1
 */
