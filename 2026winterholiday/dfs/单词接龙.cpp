@@ -1,3 +1,57 @@
+//2026.4.6 21:18
+#include<iostream>
+#include<cstring>
+#include<cmath>
+#include<string>
+using namespace std;
+
+int n;
+const int N = 25;
+string words[N];
+int visited[N];
+int ans = 0;
+
+void dfs(string word){
+    ans = max(ans, int(word.size()));
+
+    for(int i=0;i<n;i++){
+        if(visited[i] >= 2) continue;
+        for(int j=1;j<min(int(word.size()),int(words[i].size()));j++){
+            if(word.substr(word.size() - j) == words[i].substr(0,j)){
+                visited[i]++;
+                string newword = word + words[i].substr(j);
+                dfs(newword);
+                visited[i]--;
+            }
+        }
+    }
+}
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(0);
+
+    cin>>n;
+    memset(visited, 0, sizeof(visited));
+    for(int i=0;i<n;i++){
+        cin>>words[i];
+    }
+
+    char startch;
+    cin>>startch;
+
+    for(int i=0;i<n;i++){
+        if(words[i][0] == startch){
+            visited[i]++;
+            dfs(words[i]);
+            visited[i]--;
+        }
+    }
+
+    cout<<ans;
+    return 0;
+}
+
 #include <iostream>
 using namespace std;
 
