@@ -6,7 +6,7 @@ int main(){
     ios::sync_with_stdio(false);
     cin.tie(0);
 
-    priority_queue<int, vector<int>, greater<int>>heap;
+    priority_queue<int, vector<int>, greater<int>>heap;//小顶堆
     int n;
     cin>>n;
     for(int i=0;i<n;i++){
